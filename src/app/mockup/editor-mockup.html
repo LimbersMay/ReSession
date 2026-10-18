@@ -1,0 +1,289 @@
+<!-- Cookie editor mockup. The whole component becomes CookieEditor in guide step 09. -->
+<ng-container *transloco="let t">
+  <!-- Clicks inside the dialog must not reach the overlay, which closes it. -->
+  <form
+    class="re-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="ceTitle"
+    (click)="$event.stopPropagation()"
+    (submit)="onSubmit($event)"
+  >
+    <header class="re-dialog__header">
+      <div class="min-w-0">
+        <h3 class="re-dialog__title" id="ceTitle">
+          <ng-icon name="lucideCookie" size="14" />{{ title() }}
+        </h3>
+        <p class="re-dialog__subtitle">.github.com · /</p>
+      </div>
+      <button
+        type="button"
+        class="re-icon-btn re-icon-btn--sm"
+        [title]="t('common.close')"
+        [attr.aria-label]="t('common.close')"
+        (click)="dismiss.emit()"
+      >
+        <ng-icon name="lucideX" size="13" />
+      </button>
+    </header>
+
+    <div class="re-dialog__body">
+      <!-- 1. Identity -->
+      <div class="re-field">
+        <label class="re-label" for="ceName">{{ t('editor.name') }}</label>
+        <div class="re-input-group">
+          <input
+            id="ceName"
+            class="re-mono"
+            spellcheck="false"
+            autocomplete="off"
+            placeholder="session_id"
+            [value]="example().name"
+          />
+        </div>
+      </div>
+
+      <!-- 2. Content -->
+      <div class="re-field">
+        <div class="flex items-center justify-between gap-2">
+          <label class="re-label" for="ceValue">{{ t('editor.value') }}</label>
+          <div class="flex items-center gap-1.5">
+            <div class="re-segmented re-segmented--sm">
+              <button
+                type="button"
+                class="re-segmented__item"
+                [attr.aria-pressed]="valueMode() === 'raw'"
+                (click)="valueMode.set('raw')"
+              >
+                {{ t('editor.raw') }}
+              </button>
+              <button
+                type="button"
+                class="re-segmented__item"
+                [attr.aria-pressed]="valueMode() === 'decoded'"
+                (click)="valueMode.set('decoded')"
+              >
+                {{ t('editor.decoded') }} {{ '{JWT}' }}
+              </button>
+            </div>
+            <button
+              type="button"
+              class="re-icon-btn re-icon-btn--sm re-icon-btn--brand"
+              [title]="t('editor.copyValue')"
+              [attr.aria-label]="t('editor.copyValue')"
+              (click)="notify.emit(t('toast.valueCopied'))"
+            >
+              <ng-icon name="lucideCopy" size="11" />
+            </button>
+          </div>
+        </div>
+        @if (valueMode() === 'raw') {
+          <textarea id="ceValue" class="re-textarea" rows="3" spellcheck="false">
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkxpbWJlcnMifQ.s7zH2L8X3x</textarea>
+          <div class="flex items-center justify-between gap-3">
+            <span class="re-hint">{{ t('editor.rawHint') }}</span>
+            <span class="re-hint re-mono" [title]="t('editor.sizeLimit', { max: 4096 })"
+              >112 / 4096 B</span
+            >
+          </div>
+        } @else {
+          <textarea
+            class="re-textarea"
+            rows="5"
+            readonly
+            [attr.aria-label]="t('editor.jwtPayload')"
+            >{{ '{\n  "sub": "1234567890",\n  "name": "Limbers"\n}' }}</textarea
+          >
+          <span class="re-hint">{{ decodedHint() }}</span>
+        }
+      </div>
+
+      <!-- 3. Scope -->
+      <div class="re-field">
+        <div class="grid grid-cols-[1fr_128px] gap-2.5">
+          <div class="re-field">
+            <label class="re-label" for="ceDomain">{{ t('editor.domain') }}</label>
+            <div class="re-input-group">
+              <input
+                id="ceDomain"
+                class="re-mono"
+                placeholder=".github.com"
+                [value]="example().domain"
+              />
+            </div>
+          </div>
+          <div class="re-field">
+            <label class="re-label" for="cePath">{{ t('editor.path') }}</label>
+            <div class="re-input-group">
+              <input id="cePath" class="re-mono" placeholder="/" value="/" />
+            </div>
+          </div>
+        </div>
+        <span class="re-hint"
+          >{{ t('editor.domainHint') }} <span class="re-mono">.github.com</span></span
+        >
+        @if (isEditing()) {
+          <div class="re-notice">
+            <ng-icon name="lucideTriangleAlert" size="12" />
+            <span>{{ t('editor.renameNotice') }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- 4. Duration -->
+      <div class="re-field">
+        <span class="re-label">{{ t('editor.duration') }}</span>
+        <div class="re-segmented re-segmented--block">
+          <button
+            type="button"
+            class="re-segmented__item"
+            [attr.aria-pressed]="expiryMode() === 'session'"
+            (click)="expiryMode.set('session')"
+          >
+            <ng-icon name="lucideLogOut" size="10" />{{ t('editor.untilClose') }}
+          </button>
+          <button
+            type="button"
+            class="re-segmented__item"
+            [attr.aria-pressed]="expiryMode() === 'date'"
+            (click)="expiryMode.set('date')"
+          >
+            <ng-icon name="lucideCalendar" size="10" />{{ t('editor.fixedDate') }}
+          </button>
+        </div>
+        @if (expiryMode() === 'session') {
+          <div class="re-notice">
+            <ng-icon name="lucideInfo" size="12" />
+            <span>{{ t('editor.sessionNotice') }}</span>
+          </div>
+        } @else {
+          <div class="re-input-group">
+            <ng-icon name="lucideClock" size="13" />
+            <input type="datetime-local" class="re-mono" value="2026-10-31T08:00" />
+          </div>
+          <div class="flex flex-wrap items-center gap-1">
+            <span class="re-hint">{{ t('editor.fromNow') }}</span>
+            <button type="button" class="re-btn re-btn--2xs re-btn--secondary">
+              {{ t('editor.hoursOne', { count: 1 }) }}
+            </button>
+            <button type="button" class="re-btn re-btn--2xs re-btn--secondary">
+              {{ t('editor.daysOne', { count: 1 }) }}
+            </button>
+            <button type="button" class="re-btn re-btn--2xs re-btn--secondary">
+              {{ t('editor.daysMany', { count: 30 }) }}
+            </button>
+            <button type="button" class="re-btn re-btn--2xs re-btn--secondary">
+              {{ t('editor.daysMax', { count: 400 }) }}
+            </button>
+          </div>
+          <span class="re-hint">{{
+            t('editor.expiresInDaysMany', { count: 14, date: expiryDate() })
+          }}</span>
+        }
+      </div>
+
+      <!-- 5. Security -->
+      <fieldset class="re-fieldset">
+        <legend>
+          <span class="re-section-title">{{ t('editor.security') }}</span>
+        </legend>
+        <div class="grid grid-cols-2 gap-2">
+          <label class="re-option">
+            <input type="checkbox" class="re-checkbox" checked />
+            <span class="re-option__text">
+              <span class="re-option__title">HttpOnly</span>
+              <span class="re-option__desc">{{ t('editor.httpOnlyDesc') }}</span>
+            </span>
+          </label>
+          <label class="re-option">
+            <input type="checkbox" class="re-checkbox" checked [disabled]="requiresSecure()" />
+            <span class="re-option__text">
+              <span class="re-option__title">Secure</span>
+              <span class="re-option__desc">{{ t('editor.secureDesc') }}</span>
+            </span>
+          </label>
+        </div>
+        <div class="flex items-center justify-between gap-3">
+          <span class="re-option__title">SameSite</span>
+          <div class="re-segmented re-segmented--sm">
+            <button
+              type="button"
+              class="re-segmented__item"
+              [attr.aria-pressed]="sameSite() === 'Lax'"
+              (click)="sameSite.set('Lax')"
+            >
+              Lax
+            </button>
+            <button
+              type="button"
+              class="re-segmented__item"
+              [attr.aria-pressed]="sameSite() === 'Strict'"
+              (click)="sameSite.set('Strict')"
+            >
+              Strict
+            </button>
+            <button
+              type="button"
+              class="re-segmented__item"
+              [attr.aria-pressed]="sameSite() === 'None'"
+              (click)="sameSite.set('None')"
+            >
+              None
+            </button>
+          </div>
+        </div>
+        <span class="re-hint">{{ sameSiteHint() }}</span>
+        @if (requiresSecure()) {
+          <div class="re-notice">
+            <ng-icon name="lucideInfo" size="12" />
+            <span>{{ t('editor.sameSiteNoneNotice') }}</span>
+          </div>
+        }
+      </fieldset>
+
+      <!-- 6. Protection: the lock belongs to the cookie; the whitelist belongs to the site and is only reported here. -->
+      <div class="flex flex-col gap-2">
+        <label class="re-option">
+          <span class="re-option__text">
+            <span class="re-option__title">{{ t('cookies.lock') }}</span>
+            <span class="re-option__desc">{{ t('editor.lockDesc') }}</span>
+          </span>
+          <span class="re-switch">
+            <input
+              type="checkbox"
+              role="switch"
+              [attr.aria-label]="t('cookies.lock')"
+              [checked]="isEditing()"
+            />
+            <span class="re-switch__track"></span>
+          </span>
+        </label>
+        @if (isEditing()) {
+          <div class="re-notice re-notice--success">
+            <ng-icon name="lucideShieldCheck" size="12" />
+            <span
+              ><strong>{{ t('editor.whitelistedLead', { site: 'github.com' }) }}</strong>
+              {{ t('editor.whitelistedNotice') }}</span
+            >
+          </div>
+        }
+      </div>
+    </div>
+
+    <footer class="re-dialog__footer">
+      @if (isEditing()) {
+        <button
+          type="button"
+          class="re-btn re-btn--danger-ghost re-dialog__footer-start"
+          (click)="remove.emit()"
+        >
+          <ng-icon name="lucideTrash2" size="12" />{{ t('common.delete') }}
+        </button>
+      }
+      <button type="button" class="re-btn re-btn--ghost" (click)="dismiss.emit()">
+        {{ t('common.cancel') }}
+      </button>
+      <button type="submit" class="re-btn re-btn--primary">{{ t('common.save') }}</button>
+    </footer>
+  </form>
+</ng-container>

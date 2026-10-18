@@ -1,0 +1,59 @@
+<ng-container *transloco="let t; prefix: 'cookies'">
+  <div class="re-tree__row-main">
+    <input
+      type="checkbox"
+      class="re-checkbox"
+      [checked]="selected()"
+      [attr.aria-label]="t('select', { name: cookie().name })"
+      (change)="toggleSelect.emit()"
+    />
+
+    <button
+      type="button"
+      class="lock-btn"
+      [class.is-locked]="locked()"
+      [title]="lockLabel()"
+      [attr.aria-label]="lockLabel()"
+      [attr.aria-pressed]="locked()"
+      (click)="toggleLock.emit()"
+    >
+      <ng-icon [name]="lockIcon()" size="12" />
+    </button>
+
+    <span class="re-tree__key" [class.re-tree__key--strong]="locked()">{{ cookie().name }}</span>
+    <span class="re-tree__value">{{ detail() }}</span>
+  </div>
+
+  <div class="re-tree__row-end">
+    @if (tag(); as name) {
+      <span class="re-pill">{{ name }}</span>
+    } @else {
+      @if (cookie().httpOnly) {
+        <span class="re-badge re-badge--micro" title="HttpOnly">H</span>
+      }
+      @if (cookie().secure) {
+        <span class="re-badge re-badge--micro" title="Secure">S</span>
+      }
+    }
+
+    <button
+      type="button"
+      class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+      [title]="t('edit')"
+      [attr.aria-label]="t('edit')"
+      (click)="edit.emit()"
+    >
+      <ng-icon name="lucidePencil" size="11" />
+    </button>
+
+    <button
+      type="button"
+      class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+      [title]="t('remove')"
+      [attr.aria-label]="t('remove')"
+      (click)="remove.emit()"
+    >
+      <ng-icon name="lucideTrash2" size="11" />
+    </button>
+  </div>
+</ng-container>

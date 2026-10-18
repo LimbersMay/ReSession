@@ -1,0 +1,13 @@
+<ng-container *transloco="let t; prefix: 'toast'">
+  @for (message of messages(); track message.id) {
+    <div class="re-toast" role="status" [style.--re-toast-duration]="message.duration + 'ms'">
+      <span class="re-toast__message">{{ message.text }}</span>
+      @if (message.undo) {
+        <button type="button" class="re-toast__action" (click)="toast.undo()">
+          {{ t('undo') }}
+        </button>
+      }
+      <span class="re-toast__timer"></span>
+    </div>
+  }
+</ng-container>

@@ -1,0 +1,257 @@
+{
+  "common": {
+    "add": "Añadir",
+    "cancel": "Cancelar",
+    "clean": "Limpiar",
+    "close": "Cerrar",
+    "copy": "Copiar",
+    "delete": "Eliminar",
+    "empty": "Vaciar",
+    "save": "Guardar",
+    "select": "Seleccionar {{name}}"
+  },
+  "app": {
+    "cookiesCount": "Cookies ({{count}})",
+    "storageCount": "Storage ({{count}})"
+  },
+  "header": {
+    "views": "Vistas",
+    "tab": "Esta pestaña",
+    "globalCount": "Global ({{count}})",
+    "auto": "Auto",
+    "global": "Global"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "theme": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema",
+    "export": "Exportar ajustes",
+    "import": "Importar ajustes",
+    "help": "Ayuda y atajos"
+  },
+  "search": {
+    "tabPlaceholder": "Buscar por clave, valor o !exclusión…",
+    "globalPlaceholder": "Buscar cookies o dominios en todo el navegador…",
+    "clear": "Borrar búsqueda"
+  },
+  "batch": {
+    "selectAll": "Seleccionar todo ({{count}})",
+    "lock": "Proteger",
+    "lockAll": "Proteger todas",
+    "lockNeedsSelection": "Selecciona cookies para protegerlas",
+    "cleanAll": "Limpiar todo",
+    "collapseAll": "Contraer todo",
+    "selectedOne": "{{count}} seleccionada",
+    "selectedMany": "{{count}} seleccionadas",
+    "lockCount": "Proteger ({{count}})",
+    "cleanCount": "Limpiar ({{count}})",
+    "deleteCount": "Eliminar ({{count}})",
+    "expandAll": "Expandir todo"
+  },
+  "storage": {
+    "keysOne": "{{count}} clave · {{size}}",
+    "keysMany": "{{count}} claves · {{size}}",
+    "expiresInHours": "Expira en {{count}} h",
+    "viewDecoded": "Ver decodificado",
+    "viewOriginal": "Ver original",
+    "expiresIn": "Caduca {{when}}",
+    "expired": "Caducó {{when}}",
+    "noKeys": "Sin claves"
+  },
+  "global": {
+    "cookiesOne": "{{count}} cookie",
+    "cookiesMany": "{{count}} cookies",
+    "whitelistedTitle": "{{site}} está en tu lista blanca",
+    "thirdPartyTrackers": "Rastreadores de terceros",
+    "detectedOne": "{{count}} detectado",
+    "detectedMany": "{{count}} detectados",
+    "empty": "No hay cookies en el navegador",
+    "noMatches": "Ninguna cookie coincide con «{{query}}»"
+  },
+  "auto": {
+    "title": "Ejecución automática",
+    "interval": "Intervalo",
+    "everyMinutes": "Cada {{count}} min",
+    "everyHoursOne": "Cada {{count}} hora",
+    "timer": "Temporizador",
+    "cleanQuestion": "¿Qué debe limpiar el temporizador en cada ciclo?",
+    "targets": {
+      "trackers": "Rastreadores",
+      "trackersDesc": "Elimina los rastreadores conocidos de todos los sitios.",
+      "blacklist": "Lista negra",
+      "blacklistDesc": "Elimina las cookies de los sitios de tu lista negra.",
+      "strict": "Modo estricto",
+      "strictDesc": "Elimina también las cookies de todos los demás sitios."
+    },
+    "sites": "Sitios del temporizador",
+    "whitelistCount": "Lista blanca ({{count}})",
+    "blacklistCount": "Lista negra ({{count}})",
+    "patternPlaceholder": "ej. {{examples}}",
+    "addCurrentTab": "Añadir la pestaña actual: {{site}}",
+    "whitelistHint": "Sitios que nunca se limpian",
+    "blacklistHint": "Sitios que se limpian en cada ciclo",
+    "exact": "exacto",
+    "wildcard": "comodín",
+    "rules": {
+      "whitelistExact": "Nunca se limpia este dominio exacto",
+      "whitelistWildcard": "Nunca se limpia, con todos sus subdominios",
+      "blacklistExact": "Se limpia en cada ciclo",
+      "blacklistWildcard": "Se limpia en cada ciclo, con todos sus subdominios"
+    },
+    "removeFromList": "Quitar de la lista",
+    "patternLabel": "Sitio o patrón",
+    "whitelistEmpty": "Tu lista blanca está vacía.",
+    "blacklistEmpty": "Tu lista negra está vacía."
+  },
+  "status": {
+    "guaranteeTitle": "Ningún botón de limpiar, el temporizador, la lista negra ni el modo estricto borran cookies con candado ni cookies de sitios en tu lista blanca. Solo se borran si las eliminas tú, una a una.",
+    "guaranteeLead": "Lo protegido nunca se limpia.",
+    "guaranteeText": "Cookies con candado y sitios en lista blanca.",
+    "details": "Detalles"
+  },
+  "toast": {
+    "undo": "Deshacer",
+    "exported": "Se descargó {{file}}",
+    "importPage": "Se abriría la página de importación",
+    "lockedOne": "{{count}} cookie protegida con candado",
+    "lockedMany": "{{count}} cookies protegidas con candado",
+    "removedOne": "{{count}} cookie eliminada",
+    "removedMany": "{{count}} cookies eliminadas",
+    "keptOne": "{{count}} protegida se conserva",
+    "keptMany": "{{count}} protegidas se conservan",
+    "removed": "{{name}} eliminada",
+    "copied": "Copiado al portapapeles",
+    "valueCopied": "Valor copiado",
+    "jwtPayload": "Payload del JWT",
+    "saved": "Cambios guardados",
+    "addedToList": "Añadido a la lista",
+    "siteAdded": "{{site}} añadido a la lista",
+    "siteRemoved": "{{site}} quitado de la lista",
+    "copyFailed": "No se pudo copiar"
+  },
+  "editor": {
+    "titleNew": "Nueva cookie",
+    "titleEdit": "Editar cookie",
+    "name": "Nombre",
+    "value": "Valor",
+    "raw": "Original",
+    "decoded": "Decodificado",
+    "copyValue": "Copiar valor",
+    "rawHint": "Valor exacto guardado en el navegador.",
+    "sizeLimit": "Chrome no guarda cookies cuyo nombre y valor superen {{max}} bytes",
+    "jwtPayload": "Payload del JWT",
+    "decodedHint": "Payload del JWT · solo lectura. Pulsa «{{raw}}» para editar el valor.",
+    "domain": "Dominio",
+    "path": "Ruta",
+    "domainHint": "Con punto inicial también la reciben los subdominios, por ejemplo:",
+    "renameNotice": "Cambiar el nombre, el dominio o la ruta crea una cookie nueva y elimina la anterior.",
+    "duration": "Duración",
+    "untilClose": "Hasta cerrar el navegador",
+    "fixedDate": "Fecha fija",
+    "sessionNotice": "El navegador la borra al cerrar todas sus ventanas.",
+    "fromNow": "Desde ahora:",
+    "hoursOne": "{{count}} hora",
+    "daysOne": "{{count}} día",
+    "daysMany": "{{count}} días",
+    "daysMax": "{{count}} días (máx.)",
+    "expiresInDaysMany": "Caduca en {{count}} días · {{date}}",
+    "security": "Seguridad",
+    "httpOnlyDesc": "Invisible para los scripts de la página",
+    "secureDesc": "Solo se envía por HTTPS",
+    "sameSiteLax": "Se envía al llegar al sitio desde un enlace, no en peticiones de otros sitios.",
+    "sameSiteStrict": "Solo se envía en peticiones del propio sitio.",
+    "sameSiteNone": "Se envía también desde otros sitios.",
+    "sameSiteNoneNotice": "SameSite=None obliga a usar Secure.",
+    "lockDesc": "Ninguna limpieza la borrará.",
+    "whitelistedLead": "{{site}} está en tu lista blanca.",
+    "whitelistedNotice": "Esta cookie ya está protegida, tenga candado o no.",
+    "expiryLabel": "Fecha de caducidad",
+    "expiresAt": "Caduca {{when}} · {{date}}",
+    "sameSiteUnspecified": "Sin definir: el navegador la trata como Lax.",
+    "errors": {
+      "nameRequired": "Ponle un nombre",
+      "nameInvalid": "El nombre no puede tener espacios, ; , = ni caracteres de control",
+      "hostPrefix": "Una cookie __Host- debe ser Secure, con ruta / y sin punto inicial en el dominio",
+      "securePrefix": "Una cookie __Secure- debe ser Secure",
+      "valueInvalid": "El valor no puede tener ; ni saltos de línea",
+      "tooLarge": "Nombre y valor superan {{maxBytes}} bytes: Chrome no la guardará",
+      "domainRequired": "Ponle un dominio",
+      "domainInvalid": "Solo letras, números, . y -, con un punto inicial opcional",
+      "pathInvalid": "La ruta debe empezar por /",
+      "expiresInvalid": "Pon una fecha de caducidad",
+      "expired": "Esa fecha ya pasó: Chrome la borraría al guardar",
+      "tooFar": "Chrome no permite caducidades de más de {{maxDays}} días"
+    }
+  },
+  "confirm": {
+    "deleteTitle": "¿Eliminar {{name}}?",
+    "lockedLead": "Tiene candado.",
+    "deleteLockedMessage": "Se borrará solo esta cookie y el sitio puede cerrar tu sesión."
+  },
+  "help": {
+    "title": "Ayuda y atajos",
+    "protects": {
+      "title": "Qué protege ReSession",
+      "guaranteeLead": "Lo protegido nunca se limpia.",
+      "guaranteeText": "Ninguna acción de ReSession que borre en lote toca una cookie protegida, por ningún camino.",
+      "conditions": "Una cookie está protegida si cumple cualquiera de estas dos condiciones:",
+      "locked": "Tiene candado.",
+      "whitelisted": "Su sitio está en tu lista blanca, tenga candado o no.",
+      "scope": {
+        "lead": "Esto vale para:",
+        "cleanButtons": "Todos los botones «Limpiar»: carpetas, selección y «Limpiar todo»",
+        "timer": "El temporizador",
+        "blacklist": "La lista negra",
+        "strict": "El modo estricto",
+        "trackers": "La limpieza de rastreadores",
+        "conflict": "Si un sitio está a la vez en la lista blanca y en la negra, gana la blanca."
+      },
+      "manual": "Lo protegido solo se borra si lo eliminas tú, una cookie cada vez, con la papelera o desde el editor. ReSession te pedirá confirmación.",
+      "counts": "Después de cada limpieza verás las cifras:",
+      "countsExample": "{{removed}} eliminadas · {{kept}} protegidas se conservan"
+    },
+    "buttons": {
+      "title": "Qué hace cada botón",
+      "deleteDesc": "Borra una sola cookie o clave, la que eliges.",
+      "cleanDesc": "Borra todo lo que no está protegido de una carpeta, de la selección o del navegador.",
+      "emptyDesc": "Borra todo el localStorage o el sessionStorage de la pestaña. El storage no tiene candado: siempre se pide confirmación."
+    },
+    "shortcuts": {
+      "title": "Atajos de teclado",
+      "open": "Abrir ReSession",
+      "cleanTab": "Limpiar la pestaña actual",
+      "search": "Buscar",
+      "close": "Cerrar el editor, el menú o esta ayuda",
+      "hint": "Los dos primeros se cambian en la página de atajos de Chrome:"
+    }
+  },
+  "cookies": {
+    "select": "Seleccionar {{name}}",
+    "lock": "Proteger con candado",
+    "unlock": "Quitar candado",
+    "edit": "Editar",
+    "remove": "Eliminar",
+    "clean": "Limpiar",
+    "cleanCount": "Limpiar ({{count}})",
+    "whitelisted": "Lista blanca",
+    "whitelistedTitle": "{{pattern}} está en tu lista blanca: nada de este grupo se limpia",
+    "nestedMeta": "{{kind}} · {{count}}",
+    "group": {
+      "host": "Subdominio actual",
+      "root": "Dominio raíz compartido",
+      "trackers": "Rastreadores en pestaña",
+      "trackersMeta": "Analítica y publicidad",
+      "hostShort": "Subdominio",
+      "rootShort": "Raíz",
+      "trackersShort": "Rastreador"
+    }
+  },
+  "tab": {
+    "noMatches": "Nada coincide con «{{query}}».",
+    "noCookies": "Este sitio no tiene cookies.",
+    "noStorage": "Este sitio no tiene storage."
+  }
+}

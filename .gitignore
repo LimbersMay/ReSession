@@ -6,6 +6,12 @@
 /out-tsc
 /bazel-out
 
+# Extension builds (ng build → public/popup, wxt build → .output)
+/public/popup
+/.output
+/.wxt
+docs/guide
+
 # Node
 /node_modules
 npm-debug.log

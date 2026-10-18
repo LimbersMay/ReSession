@@ -1,0 +1,2177 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>ReSession — Design System Oficial (Re-Suite)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    // color-mix permite los modificadores de opacidad (border-slate-200/60, ring-brand-500/30) con colores var().
+    // Sin esto, Tailwind CDN v3 genera un color inválido y el borde cae a currentColor (líneas blancas en oscuro).
+    const mix = (token) => `color-mix(in srgb, var(${token}) calc(<alpha-value> * 100%), transparent)`;
+    const scale = (name, shades) => Object.fromEntries(shades.map((s) => [s, mix(`--color-${name}-${s}`)]));
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          fontSize: {
+            '2xs': ['11px', '14px'],
+            '3xs': ['9.5px', '12px'],
+          },
+          colors: {
+            background: mix('--background'),
+            foreground: mix('--foreground'),
+            card: mix('--card'),
+            primary: { DEFAULT: mix('--primary'), foreground: mix('--primary-foreground') },
+            border: mix('--border'),
+            ring: mix('--ring'),
+            slate: scale('slate', [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]),
+            brand: scale('brand', [50, 100, 200, 300, 400, 500, 600, 700, 800]),
+            rose: scale('rose', [50, 100, 200, 500, 600, 700]),
+            emerald: scale('emerald', [50, 100, 200, 500, 600, 700]),
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    /* ==========================================================================
+       PALETA RESESSION BASADA EN EL MOTOR STYLES.SCSS DE REROUTE
+       Identidad ReSession: Amber / Warm Peach (Hue 75 en Light, #e5c890 en Dark)
+       ========================================================================== */
+    :root {
+      color-scheme: light;
+      --brand-hue: 75;
+      --background: oklch(0.965 0.004 255);
+      --foreground: oklch(0.3 0.015 260);
+      --card: oklch(0.993 0.002 255);
+      --primary: oklch(0.55 0.135 var(--brand-hue));
+      --primary-foreground: #ffffff;
+      --border: var(--color-slate-200);
+      --ring: var(--color-brand-500);
+
+      --color-slate-50: oklch(0.975 0.003 255);
+      --color-slate-100: oklch(0.955 0.005 255);
+      --color-slate-200: oklch(0.9 0.006 255);
+      --color-slate-300: oklch(0.86 0.008 255);
+      --color-slate-400: oklch(0.68 0.01 260);
+      --color-slate-500: oklch(0.52 0.012 260);
+      --color-slate-600: oklch(0.44 0.013 260);
+      --color-slate-700: oklch(0.36 0.014 260);
+      --color-slate-800: oklch(0.3 0.015 260);
+      --color-slate-900: oklch(0.25 0.015 260);
+      --color-slate-950: oklch(0.2 0.015 260);
+
+      /* Brand (Warm Amber) en Modo Claro */
+      --color-brand-50: oklch(0.975 0.018 var(--brand-hue));
+      --color-brand-100: oklch(0.945 0.035 var(--brand-hue));
+      --color-brand-200: oklch(0.895 0.06 var(--brand-hue));
+      --color-brand-300: oklch(0.82 0.095 var(--brand-hue));
+      --color-brand-400: oklch(0.72 0.125 var(--brand-hue));
+      --color-brand-500: oklch(0.60 0.14 var(--brand-hue));
+      --color-brand-600: oklch(0.52 0.135 var(--brand-hue));
+      --color-brand-700: oklch(0.44 0.115 var(--brand-hue));
+      --color-brand-800: oklch(0.38 0.1 var(--brand-hue));
+
+      /* Rose (Rastreadores / Purga / Blacklist) */
+      --color-rose-50: oklch(0.975 0.015 25);
+      --color-rose-100: oklch(0.95 0.03 25);
+      --color-rose-200: oklch(0.91 0.05 25);
+      --color-rose-500: oklch(0.6 0.145 25);
+      --color-rose-600: oklch(0.53 0.14 25);
+      --color-rose-700: oklch(0.45 0.12 25);
+
+      /* Emerald (Whitelist / Inmune) */
+      --color-emerald-50: oklch(0.975 0.015 155);
+      --color-emerald-100: oklch(0.95 0.03 155);
+      --color-emerald-200: oklch(0.91 0.05 155);
+      --color-emerald-500: oklch(0.6 0.145 155);
+      --color-emerald-600: oklch(0.53 0.14 155);
+      --color-emerald-700: oklch(0.45 0.12 155);
+    }
+
+    :root.dark {
+      color-scheme: dark;
+      --background: #292c3c;
+      --foreground: #dde3fa;
+      --card: #303446;
+      --primary: #e5c890;
+      --primary-foreground: #232634;
+
+      --color-slate-50: #2b2f40;
+      --color-slate-100: #383c50;
+      --color-slate-200: #414559;
+      --color-slate-300: #51576d;
+      --color-slate-400: #8f97b3;
+      --color-slate-500: #a3abc9;
+      --color-slate-600: #b8c0dd;
+      --color-slate-700: #ccd4f2;
+      --color-slate-800: #dde3fa;
+      --color-slate-900: #e8ecfc;
+      --color-slate-950: #f2f4fe;
+
+      /* Mixin dark-accent('amber') de tu styles.scss */
+      --color-brand-50: color-mix(in oklab, #e5c890 12%, #303446);
+      --color-brand-100: color-mix(in oklab, #e5c890 20%, #303446);
+      --color-brand-200: color-mix(in oklab, #e5c890 32%, #303446);
+      --color-brand-300: #f0dfbd;
+      --color-brand-400: #ebd3a6;
+      --color-brand-500: #e5c890;
+      --color-brand-600: #e9cf9e;
+      --color-brand-700: #f0dfbd;
+      --color-brand-800: #f5e9d3;
+
+      /* Mixin dark-accent('rose') */
+      --color-rose-50: color-mix(in oklab, #e78284 12%, #303446);
+      --color-rose-100: color-mix(in oklab, #e78284 20%, #303446);
+      --color-rose-200: color-mix(in oklab, #e78284 32%, #303446);
+      --color-rose-500: #e78284;
+      --color-rose-600: #eba0a2;
+      --color-rose-700: #f2b8ba;
+
+      /* Mixin dark-accent('emerald') */
+      --color-emerald-50: color-mix(in oklab, #a6d189 12%, #303446);
+      --color-emerald-100: color-mix(in oklab, #a6d189 20%, #303446);
+      --color-emerald-200: color-mix(in oklab, #a6d189 32%, #303446);
+      --color-emerald-500: #a6d189;
+      --color-emerald-600: #b2d79b;
+      --color-emerald-700: #cae4b9;
+    }
+
+    body {
+      background-color: #1b1d28;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+    }
+
+    /* Controles Globales de styles.scss (.ui-checkbox y app-input-group) */
+    .ui-checkbox {
+      width: 0.875rem;
+      height: 0.875rem;
+      flex-shrink: 0;
+      cursor: pointer;
+      appearance: none;
+      border-radius: 4px;
+      border: 1px solid var(--color-slate-300);
+      background-color: var(--card);
+      transition: background-color 150ms, border-color 150ms;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 75%;
+    }
+    .ui-checkbox:hover {
+      border-color: var(--color-brand-500);
+    }
+    .ui-checkbox:checked, .ui-checkbox:indeterminate {
+      border-color: var(--color-brand-500);
+      background-color: var(--color-brand-500);
+    }
+    .ui-checkbox:checked {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23232634' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    }
+    .ui-checkbox:indeterminate {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23232634' stroke-width='3.5' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+    }
+
+    .app-input-group {
+      display: flex;
+      height: 28px;
+      width: 100%;
+      min-width: 0;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-slate-200);
+      background-color: var(--color-slate-50);
+      padding: 0 0.625rem;
+      transition: background-color 150ms, border-color 150ms, box-shadow 150ms;
+    }
+    .app-input-group:hover {
+      background-color: var(--color-slate-100);
+    }
+    .app-input-group:focus-within {
+      border-color: var(--color-brand-500);
+      background-color: var(--card);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand-500) 30%, transparent);
+    }
+    .app-input-group svg {
+      color: var(--color-slate-400);
+      transition: color 150ms;
+    }
+    .app-input-group:focus-within svg {
+      color: var(--color-brand-500);
+    }
+
+    /* Bordes sin color explícito: el token, no el gris del preflight */
+    html *, html ::before, html ::after { border-color: var(--color-slate-200); }
+
+    /* Lucide: el tamaño lo da el font-size (text-[11px]), igual que ng-icon size en el producto */
+    svg.lucide { width: 1em; height: 1em; flex-shrink: 0; stroke-width: 2; }
+
+    .ui-checkbox:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    /* ReSegmented por aria-pressed: el JS solo cambia el atributo, nunca las clases */
+    .seg {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 2px;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-slate-200);
+      background-color: var(--color-slate-100);
+      font-size: 11px;
+      line-height: 14px;
+      font-weight: 600;
+    }
+    .seg > button {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.375rem;
+      border: 1px solid transparent;
+      color: var(--color-slate-500);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 150ms, background-color 150ms, border-color 150ms;
+    }
+    .seg > button:hover { color: var(--color-slate-700); }
+    /* Activo = elevación, nunca color de marca (ReDesign › foundations/color.md §2) */
+    .seg > button[aria-pressed="true"] {
+      background-color: var(--card);
+      color: var(--color-slate-800);
+      border-color: color-mix(in srgb, var(--color-slate-200) 50%, transparent);
+      box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+    }
+    :root.dark .seg > button[aria-pressed="true"] { background-color: var(--color-slate-300); }
+    .seg > button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Acciones secundarias de carpetas y filas: aparecen al pasar el ratón o con el teclado */
+    .reveal { opacity: 0; transition: opacity 150ms; }
+    .reveal-host:hover .reveal,
+    .reveal-host:focus-within .reveal,
+    .reveal:focus-visible { opacity: 1; }
+
+    kbd {
+      display: inline-flex;
+      min-width: 1.25rem;
+      height: 1.25rem;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.25rem;
+      border-radius: 0.25rem;
+      border: 1px solid var(--color-slate-200);
+      border-bottom-width: 2px;
+      background-color: var(--color-slate-50);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-slate-700);
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--background); }
+    ::-webkit-scrollbar-thumb { background: var(--color-slate-200); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-slate-300); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 gap-3 antialiased">
+
+  <!-- Barra de previsualización de Tema para probar Light OKLCH vs Dark Pastel -->
+  <div class="w-[540px] flex items-center justify-between px-3 py-1.5 rounded-xl bg-[#232634] border border-[#383c50] text-2xs text-[#dde3fa]">
+    <div class="flex items-center gap-2">
+      <span class="size-2.5 rounded-full bg-[#e5c890]"></span>
+      <span class="font-semibold">ReSession Identity:</span>
+      <span class="font-mono text-[#a3abc9]">Warm Amber Pastel (#e5c890)</span>
+    </div>
+    <button type="button" onclick="setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark')" class="h-6 px-2.5 rounded-md bg-[#303446] hover:bg-[#383c50] border border-[#414559] font-mono text-3xs font-bold cursor-pointer transition-colors">
+      🌙 Dark Pastel / ☀️ Light OKLCH
+    </button>
+  </div>
+
+  <!-- ==================== CONTENEDOR POPUP OFICIAL (540 x 600 px) ==================== -->
+  <div class="w-[540px] h-[600px] bg-background text-foreground border border-slate-200 rounded-xl shadow-2xl flex flex-col overflow-hidden relative transition-colors duration-200">
+
+    <!-- 1. RE-HEADER: Identidad + ReSegmented (3 Pestañas) + Ajustes -->
+    <header class="h-12 px-3.5 bg-card border-b border-slate-200 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-2">
+        <div class="size-7 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 text-xs font-bold shrink-0 shadow-2xs">
+          <i data-lucide="cookie" class="text-[12px]"></i>
+        </div>
+        <span class="text-xs font-bold text-slate-800 tracking-tight">ReSession</span>
+      </div>
+
+      <!-- SELECTOR DE NAVEGACIÓN PRINCIPAL (ReSegmented) -->
+      <div class="flex items-center bg-slate-50 p-0.5 rounded-lg border border-slate-200 text-3xs font-semibold">
+        <button type="button" id="navTabScope" onclick="switchNav('tab')" class="px-2.5 py-1 rounded-md bg-card dark:bg-slate-300 text-slate-800 border border-slate-200/50 shadow-xs flex items-center gap-1.5 transition-all cursor-pointer">
+          <i data-lucide="target" class="text-[9px]"></i>
+          <span>Esta pestaña</span>
+        </button>
+        <button type="button" id="navGlobalScope" onclick="switchNav('global')" class="px-2.5 py-1 rounded-md border border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-1.5 transition-all cursor-pointer">
+          <i data-lucide="globe" class="text-[9px]"></i>
+          <span>Global (84)</span>
+        </button>
+        <button type="button" id="navAutoScope" onclick="switchNav('auto')" class="px-2.5 py-1 rounded-md border border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-1.5 transition-all cursor-pointer">
+          <i data-lucide="zap" class="text-[9px]"></i>
+          <span>Auto</span>
+        </button>
+      </div>
+
+      <div class="relative flex items-center gap-1.5">
+        <!-- "Añadir" crea una cookie en el ámbito visible. En Auto no aparece: esa vista tiene su propio "Añadir" de dominios. -->
+        <button type="button" id="btnAddCookie" onclick="openCookieEditor(null)" class="h-7 px-2.5 rounded-lg text-2xs font-semibold bg-primary text-primary-foreground hover:opacity-90 active:scale-95 transition-all flex items-center gap-1 shadow-xs cursor-pointer">
+          <i data-lucide="plus" class="text-[9px]"></i>
+          <span>Añadir</span>
+        </button>
+
+        <!-- Engranaje: mismo menú y mismo orden que ReRoute (ReDesign › patterns/settings-menu.md) -->
+        <button type="button" id="btnSettings" onclick="toggleSettingsMenu()" aria-haspopup="menu" aria-expanded="false" aria-controls="settingsMenu" class="size-7 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 aria-expanded:text-brand-600 aria-expanded:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Ajustes" aria-label="Ajustes">
+          <i data-lucide="settings" class="text-[12px]"></i>
+        </button>
+
+        <div id="settingsMenu" role="menu" aria-label="Ajustes" class="hidden absolute right-0 top-9 z-30 w-60 rounded-xl border border-slate-200 bg-card shadow-xl p-1.5 font-sans text-2xs text-slate-700">
+          <div class="px-2 pt-1.5 pb-2 space-y-1.5">
+            <span class="block text-2xs font-bold uppercase tracking-wider text-slate-400">Idioma</span>
+            <div class="seg" id="langSeg">
+              <button type="button" aria-pressed="true" onclick="setLanguage('es', this)">Español</button>
+              <button type="button" aria-pressed="false" onclick="setLanguage('en', this)">English</button>
+            </div>
+          </div>
+          <div class="px-2 pb-2 space-y-1.5">
+            <span class="block text-2xs font-bold uppercase tracking-wider text-slate-400">Tema</span>
+            <div class="seg" id="themeSeg">
+              <button type="button" aria-pressed="false" data-theme="light" onclick="setTheme('light')" title="Claro" aria-label="Claro"><i data-lucide="sun" class="text-[11px]"></i></button>
+              <button type="button" aria-pressed="true" data-theme="dark" onclick="setTheme('dark')" title="Oscuro" aria-label="Oscuro"><i data-lucide="moon" class="text-[11px]"></i></button>
+              <button type="button" aria-pressed="false" data-theme="system" onclick="setTheme('system')" title="Sistema" aria-label="Sistema"><i data-lucide="monitor" class="text-[11px]"></i></button>
+            </div>
+          </div>
+          <div class="border-t border-slate-200 py-1">
+            <button type="button" role="menuitem" onclick="closeSettingsMenu(); showToast('Se descargó resession-ajustes.json')" class="w-full h-8 px-2 rounded-md flex items-center gap-2.5 hover:bg-slate-100 cursor-pointer text-left">
+              <i data-lucide="download" class="text-[11px] text-slate-400 w-3.5"></i>
+              <span class="flex-1">Exportar ajustes</span>
+            </button>
+            <button type="button" role="menuitem" onclick="closeSettingsMenu(); showToast('Importar: elige un archivo .json')" class="w-full h-8 px-2 rounded-md flex items-center gap-2.5 hover:bg-slate-100 cursor-pointer text-left">
+              <i data-lucide="upload" class="text-[11px] text-slate-400 w-3.5"></i>
+              <span class="flex-1">Importar ajustes</span>
+            </button>
+            <p class="px-2 pt-0.5 pb-1 text-2xs text-slate-400 leading-snug">Candados, listas blanca y negra y temporizador. Nunca los valores de las cookies.</p>
+          </div>
+          <div class="border-t border-slate-200 pt-1">
+            <button type="button" role="menuitem" onclick="closeSettingsMenu(); openHelp()" class="w-full h-8 px-2 rounded-md flex items-center gap-2.5 hover:bg-slate-100 cursor-pointer text-left">
+              <i data-lucide="circle-help" class="text-[11px] text-slate-400 w-3.5"></i>
+              <span class="flex-1">Ayuda y atajos</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- VISTA 1: ESTA PESTAÑA (Inspector Contextual: Cookies vs Storage)       -->
+    <!-- ===================================================================== -->
+    <div id="viewTab" class="flex-1 flex flex-col min-h-0">
+      
+      <!-- Buscador (app-input-group) + ReSegmented Secundario [Cookies | Storage] -->
+      <div class="px-3.5 py-2 bg-card/60 border-b border-slate-200 flex items-center gap-2.5 shrink-0">
+        <div class="app-input-group flex-1">
+          <i data-lucide="search" class="text-[10px] pointer-events-none"></i>
+          <input type="text" id="tabFilterInput" oninput="applyFilter('tab')" placeholder="Buscar por clave, valor o !exclusión..." class="h-full w-full bg-transparent text-2xs font-mono text-slate-700 placeholder:text-slate-400 focus:outline-none" />
+        </div>
+
+        <div class="flex items-center bg-slate-50 p-0.5 rounded-lg border border-slate-200 text-3xs font-semibold shrink-0">
+          <button type="button" id="pillCookies" onclick="setTabType('cookies')" class="px-2 py-1 rounded-md bg-card dark:bg-slate-300 text-slate-800 border border-slate-200/50 shadow-xs transition-colors cursor-pointer">Cookies (8)</button>
+          <button type="button" id="pillStorage" onclick="setTabType('storage')" class="px-2 py-1 rounded-md border border-transparent text-slate-500 hover:text-slate-700 transition-colors cursor-pointer">Storage (3)</button>
+        </div>
+      </div>
+
+      <!-- Barra Contextual de Acciones Elástica -->
+      <div class="h-8 px-4 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between font-sans text-3xs shrink-0 select-none">
+        <label class="flex items-center gap-2 cursor-pointer font-medium text-slate-500 hover:text-slate-800">
+          <input type="checkbox" id="selectAllTabCheckbox" onchange="toggleSelectAllTab(this.checked)" class="ui-checkbox">
+          <span id="tabSelectionLabel">Seleccionar todo (8)</span>
+        </label>
+        <div class="flex items-center gap-1.5">
+          <button type="button" id="btnTabProtect" onclick="handleBatchProtect()" class="h-6 px-2.5 rounded-md bg-card hover:bg-slate-100 text-slate-700 hover:text-slate-800 border border-slate-200 hover:border-slate-300 transition-colors flex items-center gap-1.5 font-semibold cursor-pointer shadow-2xs">
+            <i data-lucide="lock" class="text-[10px] text-slate-400"></i>
+            <span id="btnTabProtectText">Proteger todas</span>
+          </button>
+          <!-- Solo el verbo: la garantía la dice la status bar y la confirma el toast con cifras -->
+          <button type="button" id="btnTabClean" onclick="handleBatchClean()" class="h-6 px-2.5 rounded-md bg-card hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200 hover:border-rose-200 transition-colors flex items-center gap-1.5 font-semibold cursor-pointer shadow-2xs">
+            <i data-lucide="eraser" class="text-[8px] text-slate-400"></i>
+            <span id="btnTabCleanText">Limpiar</span>
+          </button>
+          <button type="button" onclick="toggleAllFolders(this)" class="size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Contraer todo" aria-label="Contraer todo">
+            <i data-lucide="chevrons-down-up" class="text-[11px]"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- RE-TREE DEL TAB: COOKIES
+           Anatomía única de fila (igual en Global): casilla · candado · clave · valor · banderas · [editar] [eliminar] al hover.
+           data-domain en la carpeta (o en la fila, si es de terceros) alimenta el editor y la comprobación de lista blanca. -->
+      <main id="tabTreeCookies" class="flex-1 overflow-y-auto divide-y divide-slate-200/70 bg-background font-mono text-2xs">
+
+        <!-- Subdominio Actual -->
+        <div class="folder-group" id="folder-tab-subdomain" data-domain="gist.github.com">
+          <div class="reveal-host h-8 px-4 bg-card hover:bg-slate-50 flex items-center justify-between cursor-pointer border-b border-slate-200/60 select-none transition-colors" onclick="toggleFolder('items-tab-subdomain', 'icon-tab-subdomain')">
+            <div class="flex items-center gap-2">
+              <i id="icon-tab-subdomain" data-lucide="chevron-down" class="text-[10px] text-slate-400 transition-transform duration-150"></i>
+              <i data-lucide="folder" class="text-slate-400 text-xs"></i>
+              <span class="font-sans font-semibold text-slate-800 text-2xs">Subdominio actual:</span>
+              <span class="text-slate-500 font-mono text-3xs">gist.github.com</span>
+              <span class="text-3xs font-mono font-bold text-slate-600 bg-slate-100 px-1.5 rounded-md border border-slate-200">3</span>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); cleanGroup(this)" class="reveal h-5 px-2 rounded-md text-3xs font-sans font-semibold text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer">
+              Limpiar
+            </button>
+          </div>
+
+          <div id="items-tab-subdomain" class="divide-y divide-slate-200/50 bg-slate-50/30">
+            <!-- Cookie con candado -->
+            <div class="item-row reveal-host h-9 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-value="ghs_89A7sdFk982jKqP2xL0m" data-http-only data-secure data-same-site="Lax" data-expires="session">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="tab-item-check ui-checkbox" aria-label="Seleccionar">
+                <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-700 hover:opacity-80 transition-opacity cursor-pointer" data-locked="true" title="Quitar candado" aria-label="Quitar candado"><i data-lucide="lock" class="text-[11px]"></i></button>
+                <span class="row-key font-semibold text-slate-800 truncate">gist_session</span>
+                <span class="text-slate-400 truncate max-w-[140px]">ghs_89A7sdFk982jK...</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <div class="row-flags flex items-center gap-1 text-3xs text-slate-500 font-mono mr-1">
+                  <span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="HttpOnly">H</span>
+                  <span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="Secure">S</span>
+                </div>
+                <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+              </div>
+            </div>
+
+            <!-- Cookie sin protección -->
+            <div class="item-row reveal-host h-9 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-value="dark_high_contrast" data-secure data-same-site="Lax" data-expires="2027-10-16T14:30">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="tab-item-check ui-checkbox" aria-label="Seleccionar">
+                <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-300 hover:text-slate-500 transition-colors cursor-pointer" data-locked="false" title="Proteger con candado" aria-label="Proteger con candado"><i data-lucide="lock-open" class="text-[11px]"></i></button>
+                <span class="row-key font-medium text-slate-600 truncate">gist_ui_theme</span>
+                <span class="text-slate-400 truncate max-w-[140px]">dark_high_contrast</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <div class="row-flags flex items-center gap-1 text-3xs text-slate-500 font-mono mr-1">
+                  <span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="Secure">S</span>
+                </div>
+                <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+              </div>
+            </div>
+
+            <div class="item-row reveal-host h-9 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-value="c98ef201ba" data-same-site="Lax" data-expires="2026-11-16T09:00">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="tab-item-check ui-checkbox" aria-label="Seleccionar">
+                <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-300 hover:text-slate-500 transition-colors cursor-pointer" data-locked="false" title="Proteger con candado" aria-label="Proteger con candado"><i data-lucide="lock-open" class="text-[11px]"></i></button>
+                <span class="row-key font-medium text-slate-600 truncate">last_viewed_gist</span>
+                <span class="text-slate-400 truncate max-w-[140px]">c98ef201ba</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dominio Raíz Compartido: está en la lista blanca, así que la carpeta no ofrece "Limpiar" -->
+        <div class="folder-group" id="folder-tab-root" data-domain=".github.com">
+          <div class="h-8 px-4 bg-card hover:bg-slate-50 flex items-center justify-between cursor-pointer border-b border-slate-200/60 select-none transition-colors" onclick="toggleFolder('items-tab-root', 'icon-tab-root')">
+            <div class="flex items-center gap-2">
+              <i id="icon-tab-root" data-lucide="chevron-down" class="text-[10px] text-slate-400 transition-transform duration-150"></i>
+              <i data-lucide="globe" class="text-slate-400 text-xs"></i>
+              <span class="font-sans font-semibold text-slate-800 text-2xs">Dominio raíz compartido:</span>
+              <span class="text-slate-500 font-mono text-3xs">.github.com</span>
+              <span class="text-3xs font-mono font-bold text-slate-600 bg-slate-100 px-1.5 rounded-md border border-slate-200">3</span>
+            </div>
+            <span class="wl-pill h-5 px-1.5 rounded-md text-3xs font-sans font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 flex items-center gap-1" title="github.com está en tu lista blanca: nada de este dominio se limpia">
+              <i data-lucide="shield-check" class="text-[8px] text-emerald-500"></i>
+              Lista blanca
+            </span>
+          </div>
+
+          <div id="items-tab-root" class="divide-y divide-slate-200/50 bg-slate-50/30">
+            <div class="item-row reveal-host h-9 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-value="PKC_99xKa81ZlaQ7nV3" data-http-only data-secure data-same-site="Lax" data-expires="2026-10-31T08:00">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="tab-item-check ui-checkbox" aria-label="Seleccionar">
+                <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-700 hover:opacity-80 transition-opacity cursor-pointer" data-locked="true" title="Quitar candado" aria-label="Quitar candado"><i data-lucide="lock" class="text-[11px]"></i></button>
+                <span class="row-key font-semibold text-slate-800 truncate">user_session</span>
+                <span class="text-slate-400 truncate max-w-[140px]">PKC_99xKa81Zla...</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <div class="row-flags flex items-center gap-1 text-3xs text-slate-500 font-mono mr-1">
+                  <span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="HttpOnly">H</span>
+                  <span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="Secure">S</span>
+                </div>
+                <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+              </div>
+            </div>
+
+            <div class="item-row reveal-host h-9 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-domain="github.com" data-value="usr_50918231" data-http-only data-secure data-same-site="Strict" data-expires="2027-10-16T14:30">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="tab-item-check ui-checkbox" aria-label="Seleccionar">
+                <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-700 hover:opacity-80 transition-opacity cursor-pointer" data-locked="true" title="Quitar candado" aria-label="Quitar candado"><i data-lucide="lock" class="text-[11px]"></i></button>
+                <span class="row-key font-semibold text-slate-800 truncate">__Host-user_id</span>
+                <span class="text-slate-400 truncate max-w-[140px]">usr_50918231...</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <div class="row-flags flex items-center gap-1 text-3xs text-slate-500 font-mono mr-1">
+                  <span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="HttpOnly">H</span>
+                  <span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="Secure">S</span>
+                </div>
+                <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+              </div>
+            </div>
+
+            <!-- Sin candado, pero protegida por la lista blanca del sitio -->
+            <div class="item-row reveal-host h-9 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-value="yes" data-secure data-same-site="Lax" data-expires="2027-10-16T14:30">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="tab-item-check ui-checkbox" aria-label="Seleccionar">
+                <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-300 hover:text-slate-500 transition-colors cursor-pointer" data-locked="false" title="Proteger con candado" aria-label="Proteger con candado"><i data-lucide="lock-open" class="text-[11px]"></i></button>
+                <span class="row-key font-medium text-slate-600 truncate">logged_in</span>
+                <span class="text-slate-400 truncate max-w-[140px]">yes</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <div class="row-flags flex items-center gap-1 text-3xs text-slate-500 font-mono mr-1">
+                  <span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="Secure">S</span>
+                </div>
+                <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rastreadores de terceros cargados por la pestaña (Señal Semántica Rose).
+             Es la única carpeta con la acción siempre visible: es la limpieza que el usuario viene a hacer. -->
+        <div class="folder-group" id="folder-tab-trackers">
+          <div class="h-8 px-4 bg-card hover:bg-slate-50 flex items-center justify-between cursor-pointer border-b border-slate-200/60 select-none transition-colors" onclick="toggleFolder('items-tab-trackers', 'icon-tab-trackers')">
+            <div class="flex items-center gap-2">
+              <i id="icon-tab-trackers" data-lucide="chevron-down" class="text-[10px] text-slate-400 transition-transform duration-150"></i>
+              <i data-lucide="shield-alert" class="text-rose-500 text-xs"></i>
+              <span class="font-sans font-semibold text-slate-800 text-2xs">Rastreadores en pestaña:</span>
+              <span class="text-slate-500 font-mono text-3xs">Analítica / Ads</span>
+              <span class="text-3xs font-mono font-bold text-rose-600 bg-rose-50 px-1.5 rounded-md border border-rose-200">2</span>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); cleanGroup(this)" class="h-5 px-2 rounded-md text-3xs font-sans font-bold bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 active:scale-95 transition-all flex items-center gap-1 shadow-2xs cursor-pointer">
+              <i data-lucide="eraser" class="text-[8px]"></i>
+              <span>Limpiar (2)</span>
+            </button>
+          </div>
+
+          <div id="items-tab-trackers" class="divide-y divide-slate-200/50 bg-slate-50/30">
+            <div class="item-row reveal-host h-9 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-rose-50/40 transition-colors" data-domain=".doubleclick.net" data-value="AHWqTUv_9281xQe" data-http-only data-secure data-same-site="None" data-expires="2027-09-12T10:00">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="tab-item-check ui-checkbox" aria-label="Seleccionar">
+                <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-300 hover:text-slate-500 transition-colors cursor-pointer" data-locked="false" title="Proteger con candado" aria-label="Proteger con candado"><i data-lucide="lock-open" class="text-[11px]"></i></button>
+                <span class="row-key font-medium text-slate-700 truncate">IDE</span>
+                <span class="text-slate-400 truncate max-w-[140px]">.doubleclick.net</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <span class="text-3xs font-sans font-medium text-rose-600 bg-rose-50 border border-rose-200/60 px-1.5 py-0.5 rounded mr-1">Google Ads</span>
+                <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+              </div>
+            </div>
+
+            <div class="item-row reveal-host h-9 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-rose-50/40 transition-colors" data-domain=".bing.com" data-value="3F1A9C27D04E6B11" data-secure data-same-site="None" data-expires="2027-10-01T00:00">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="tab-item-check ui-checkbox" aria-label="Seleccionar">
+                <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-300 hover:text-slate-500 transition-colors cursor-pointer" data-locked="false" title="Proteger con candado" aria-label="Proteger con candado"><i data-lucide="lock-open" class="text-[11px]"></i></button>
+                <span class="row-key font-medium text-slate-700 truncate">MUID</span>
+                <span class="text-slate-400 truncate max-w-[140px]">.bing.com</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <span class="text-3xs font-sans font-medium text-rose-600 bg-rose-50 border border-rose-200/60 px-1.5 py-0.5 rounded mr-1">Microsoft Ads</span>
+                <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- RE-TREE DEL TAB: STORAGE (LOCALSTORAGE Y SESSIONSTORAGE) -->
+      <main id="tabTreeStorage" class="hidden flex-1 overflow-y-auto divide-y divide-slate-200/70 bg-background font-mono text-2xs">
+        
+        <!-- LocalStorage -->
+        <div class="folder-group" id="folder-tab-ls">
+          <div class="reveal-host h-8 px-4 bg-card hover:bg-slate-50 flex items-center justify-between cursor-pointer border-b border-slate-200/60 select-none transition-colors" onclick="toggleFolder('items-tab-ls', 'icon-tab-ls')">
+            <div class="flex items-center gap-2">
+              <i id="icon-tab-ls" data-lucide="chevron-down" class="text-[10px] text-slate-400 transition-transform duration-150"></i>
+              <i data-lucide="database" class="text-slate-400 text-xs"></i>
+              <span class="font-sans font-semibold text-slate-800 text-2xs">LocalStorage:</span>
+              <span class="text-slate-500 font-mono text-3xs">https://gist.github.com</span>
+              <span class="text-3xs font-mono font-bold text-slate-600 bg-slate-100 px-1.5 rounded-md border border-slate-200">2 claves (14.2 KB)</span>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); emptyStorage(this, 'LocalStorage');" class="reveal h-5 px-2 rounded-md text-3xs font-sans font-semibold text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer">
+              Vaciar
+            </button>
+          </div>
+
+          <div id="items-tab-ls" class="divide-y divide-slate-200/50 bg-slate-50/30">
+            <!-- JWT Item -->
+            <div class="item-row reveal-host h-11 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="ui-checkbox" aria-label="Seleccionar">
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="font-semibold text-slate-800 truncate">auth_token</span>
+                    <span class="text-3xs font-mono px-1.5 bg-slate-100 text-slate-600 rounded border border-slate-200 font-bold">{JWT}</span>
+                    <span class="text-3xs font-sans text-slate-400">Expira en 2h</span>
+                  </div>
+                  <p class="text-3xs font-mono text-slate-400 truncate mt-0.5">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJsaW1iZXJ0bWF5Iiwicm9sZSI6ImRldmVsb3BlciJ9...</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <button type="button" onclick="copyText('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...')" class="size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 flex items-center justify-center transition-colors cursor-pointer" title="Copiar Token">
+                  <i data-lucide="copy" class="text-[11px]"></i>
+                </button>
+                <button type="button" onclick="showToast('Payload JWT inspeccionado')" class="size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 flex items-center justify-center transition-colors cursor-pointer" title="Ver JSON Decodificado">
+                  <i data-lucide="code" class="text-[10px]"></i>
+                </button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all flex items-center justify-center cursor-pointer">
+                  <i data-lucide="trash-2" class="text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- JSON Item -->
+            <div class="item-row reveal-host h-11 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="ui-checkbox" aria-label="Seleccionar">
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="font-semibold text-slate-800 truncate">ui_preferences</span>
+                    <span class="text-3xs font-mono px-1.5 bg-slate-100 text-slate-600 rounded border border-slate-200 font-semibold">{JSON}</span>
+                  </div>
+                  <p class="text-3xs font-mono text-slate-400 truncate mt-0.5">{"theme":"dark","sidebarCollapsed":false,"codeWrap":true}</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <button type="button" onclick="copyText('{\"theme\":\"dark\"...}')" class="size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 flex items-center justify-center transition-colors cursor-pointer">
+                  <i data-lucide="copy" class="text-[11px]"></i>
+                </button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all flex items-center justify-center cursor-pointer">
+                  <i data-lucide="trash-2" class="text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SessionStorage -->
+        <div class="folder-group" id="folder-tab-ss">
+          <div class="reveal-host h-8 px-4 bg-card hover:bg-slate-50 flex items-center justify-between cursor-pointer border-b border-slate-200/60 select-none transition-colors" onclick="toggleFolder('items-tab-ss', 'icon-tab-ss')">
+            <div class="flex items-center gap-2">
+              <i id="icon-tab-ss" data-lucide="chevron-down" class="text-[10px] text-slate-400 transition-transform duration-150"></i>
+              <i data-lucide="database-zap" class="text-slate-400 text-xs"></i>
+              <span class="font-sans font-semibold text-slate-800 text-2xs">SessionStorage:</span>
+              <span class="text-slate-500 font-mono text-3xs">https://gist.github.com</span>
+              <span class="text-3xs font-mono font-bold text-slate-600 bg-slate-100 px-1.5 rounded-md border border-slate-200">1 clave (1.8 KB)</span>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); emptyStorage(this, 'SessionStorage');" class="reveal h-5 px-2 rounded-md text-3xs font-sans font-semibold text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer">
+              Vaciar
+            </button>
+          </div>
+
+          <div id="items-tab-ss" class="divide-y divide-slate-200/50 bg-slate-50/30">
+            <div class="item-row reveal-host h-11 px-4 pl-8 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors">
+              <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                <input type="checkbox" onchange="updateTabSelectionState()" class="ui-checkbox" aria-label="Seleccionar">
+                <div class="min-w-0 flex-1">
+                  <span class="font-semibold text-slate-800 truncate block">draft_gist_temp</span>
+                  <p class="text-3xs font-mono text-slate-400 truncate mt-0.5">const debounce = (fn, delay) => { ...</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <button type="button" onclick="copyText('const debounce...')" class="size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 flex items-center justify-center transition-colors cursor-pointer">
+                  <i data-lucide="copy" class="text-[11px]"></i>
+                </button>
+                <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all flex items-center justify-center cursor-pointer">
+                  <i data-lucide="trash-2" class="text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- VISTA 2: GLOBAL (84 SITIOS) (Buscador Full Width + ReTree 2 Niveles)  -->
+    <!-- ===================================================================== -->
+    <div id="viewGlobal" class="hidden flex-1 flex flex-col min-h-0">
+      
+      <!-- Buscador Full-Width -->
+      <div class="px-3.5 py-2 bg-card/60 border-b border-slate-200 flex items-center gap-2.5 shrink-0">
+        <div class="app-input-group flex-1">
+          <i data-lucide="search" class="text-[10px] pointer-events-none"></i>
+          <input type="text" id="globalFilterInput" oninput="applyFilter('global')" placeholder="Buscar cookies o dominios en todo el navegador..." class="h-full w-full bg-transparent text-2xs font-mono text-slate-700 placeholder:text-slate-400 focus:outline-none" />
+        </div>
+        <div class="flex items-center bg-slate-100 px-2 py-1 rounded-md border border-slate-200 text-3xs font-mono font-bold text-slate-600 shrink-0">
+          <span>1,420 cookies</span>
+        </div>
+      </div>
+
+      <!-- Barra Contextual de Acciones Global.
+           "Proteger" exige selección: proteger 1.420 cookies de golpe vacía de sentido el candado.
+           "Limpiar" sin selección es la acción más grande de la extensión: pide confirmación con cifras. -->
+      <div class="h-8 px-4 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between font-sans text-3xs shrink-0 select-none">
+        <label class="flex items-center gap-2 cursor-pointer font-medium text-slate-500 hover:text-slate-800">
+          <input type="checkbox" id="selectAllGlobalCheckbox" onchange="toggleSelectAllGlobal(this.checked)" class="ui-checkbox">
+          <span id="globalSelectionLabel">Seleccionar todo (1.4k)</span>
+        </label>
+        <div class="flex items-center gap-1.5">
+          <button type="button" id="btnGlobalProtect" disabled onclick="handleGlobalProtect()" class="h-6 px-2.5 rounded-md bg-card hover:bg-slate-100 text-slate-700 hover:text-slate-800 border border-slate-200 hover:border-slate-300 transition-colors flex items-center gap-1.5 font-semibold cursor-pointer shadow-2xs disabled:opacity-40 disabled:pointer-events-none" title="Selecciona cookies para protegerlas">
+            <i data-lucide="lock" class="text-[10px] text-slate-400"></i>
+            <span id="btnGlobalProtectText">Proteger</span>
+          </button>
+          <button type="button" onclick="handleGlobalClean()" class="h-6 px-2.5 rounded-md bg-card hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200 hover:border-rose-200 transition-colors flex items-center gap-1.5 font-semibold cursor-pointer shadow-2xs">
+            <i data-lucide="eraser" class="text-[8px] text-slate-400"></i>
+            <span id="btnGlobalCleanText">Limpiar todo</span>
+          </button>
+          <button type="button" onclick="toggleAllFolders(this)" class="size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Contraer todo" aria-label="Contraer todo">
+            <i data-lucide="chevrons-down-up" class="text-[11px]"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ReTree Global: Nivel 1 (Sitio) -> Nivel 2 (Subdominio) -> Nivel 3 (Cookie) -->
+      <main id="globalTree" class="flex-1 overflow-y-auto divide-y divide-slate-200/70 bg-background font-mono text-2xs">
+
+        <!-- Nivel 1: github.com -->
+        <div class="site-section folder-group">
+          <div class="reveal-host h-8 px-4 bg-card hover:bg-slate-50 flex items-center justify-between cursor-pointer border-b border-slate-200 select-none transition-colors" onclick="toggleFolder('sub-gh', 'icon-site-gh')">
+            <div class="flex items-center gap-2">
+              <i id="icon-site-gh" data-lucide="chevron-down" class="text-[10px] text-slate-400 transition-transform duration-150"></i>
+              <i data-lucide="globe" class="text-slate-400 text-xs"></i>
+              <span class="font-sans font-bold text-slate-800 text-2xs tracking-tight">github.com</span>
+              <span class="text-3xs font-mono font-bold text-slate-600 bg-slate-100 px-1.5 rounded-md border border-slate-200">7 cookies</span>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); cleanGroup(this)" class="reveal h-5 px-2 rounded-md text-3xs font-sans font-semibold text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer">
+              Limpiar
+            </button>
+          </div>
+
+          <div id="sub-gh" class="divide-y divide-slate-200/50 bg-slate-50/40">
+            <!-- Nivel 2: .github.com (lista blanca) -->
+            <div class="subdomain-section folder-group" data-domain=".github.com">
+              <div class="h-7 px-4 pl-7 bg-slate-50 hover:bg-slate-100/80 flex items-center justify-between cursor-pointer border-b border-slate-200/50 select-none transition-colors" onclick="toggleFolder('cookies-gh-root', 'icon-gh-root')">
+                <div class="flex items-center gap-2">
+                  <i id="icon-gh-root" data-lucide="chevron-down" class="text-[9px] text-slate-400 transition-transform duration-150"></i>
+                  <i data-lucide="folder" class="text-slate-400 text-[11px]"></i>
+                  <span class="font-mono text-slate-700 text-3xs font-semibold">.github.com</span>
+                  <span class="text-3xs font-sans text-slate-400">(Raíz · 4)</span>
+                </div>
+                <span class="wl-pill h-4 px-1.5 rounded text-3xs font-sans font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 flex items-center gap-1" title="github.com está en tu lista blanca">
+                  <i data-lucide="shield-check" class="text-[7px] text-emerald-500"></i>
+                  Lista blanca
+                </span>
+              </div>
+              <div id="cookies-gh-root" class="divide-y divide-slate-200/40 bg-card/40">
+                <div class="item-row reveal-host h-8 px-4 pl-12 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-value="PKC_99xKa81ZlaQ7nV3" data-http-only data-secure data-same-site="Lax" data-expires="2026-10-31T08:00">
+                  <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                    <input type="checkbox" onchange="updateGlobalSelectionState()" class="global-item-check ui-checkbox" aria-label="Seleccionar">
+                    <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-700 hover:opacity-80 transition-opacity cursor-pointer" data-locked="true" title="Quitar candado" aria-label="Quitar candado"><i data-lucide="lock" class="text-[10px]"></i></button>
+                    <span class="row-key font-semibold text-slate-800 truncate">user_session</span>
+                    <span class="text-slate-400 truncate max-w-[140px]">PKC_99xKa81...</span>
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                    <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nivel 2: gist.github.com -->
+            <div class="subdomain-section folder-group" data-domain="gist.github.com">
+              <div class="reveal-host h-7 px-4 pl-7 bg-slate-50 hover:bg-slate-100/80 flex items-center justify-between cursor-pointer border-b border-slate-200/50 select-none transition-colors" onclick="toggleFolder('cookies-gh-gist', 'icon-gh-gist')">
+                <div class="flex items-center gap-2">
+                  <i id="icon-gh-gist" data-lucide="chevron-down" class="text-[9px] text-slate-400 transition-transform duration-150"></i>
+                  <i data-lucide="folder" class="text-slate-400 text-[11px]"></i>
+                  <span class="font-mono text-slate-700 text-3xs font-semibold">gist.github.com</span>
+                  <span class="text-3xs font-sans text-slate-400">(Subdominio · 3)</span>
+                </div>
+                <button type="button" onclick="event.stopPropagation(); cleanGroup(this)" class="reveal h-4 px-1.5 rounded text-3xs font-sans text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer">Limpiar</button>
+              </div>
+              <div id="cookies-gh-gist" class="divide-y divide-slate-200/40 bg-card/40">
+                <div class="item-row reveal-host h-8 px-4 pl-12 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-value="ghs_89A7sdFk982jKqP2xL0m" data-http-only data-secure data-same-site="Lax" data-expires="session">
+                  <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                    <input type="checkbox" onchange="updateGlobalSelectionState()" class="global-item-check ui-checkbox" aria-label="Seleccionar">
+                    <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-700 hover:opacity-80 transition-opacity cursor-pointer" data-locked="true" title="Quitar candado" aria-label="Quitar candado"><i data-lucide="lock" class="text-[10px]"></i></button>
+                    <span class="row-key font-semibold text-slate-800 truncate">gist_session</span>
+                    <span class="text-slate-400 truncate max-w-[140px]">ghs_89A7sdFk...</span>
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                    <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+                  </div>
+                </div>
+                <div class="item-row reveal-host h-8 px-4 pl-12 flex items-center justify-between gap-3 hover:bg-slate-100/60 transition-colors" data-value="dark_high_contrast" data-secure data-same-site="Lax" data-expires="2027-10-16T14:30">
+                  <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                    <input type="checkbox" onchange="updateGlobalSelectionState()" class="global-item-check ui-checkbox" aria-label="Seleccionar">
+                    <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-300 hover:text-slate-500 transition-colors cursor-pointer" data-locked="false" title="Proteger con candado" aria-label="Proteger con candado"><i data-lucide="lock-open" class="text-[10px]"></i></button>
+                    <span class="row-key font-medium text-slate-600 truncate">gist_ui_theme</span>
+                    <span class="text-slate-400 truncate max-w-[140px]">dark_high_contrast</span>
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                    <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nivel 1: Rastreadores Globales con Señal Semántica Rose -->
+        <div class="site-section folder-group">
+          <div class="h-8 px-4 bg-card hover:bg-slate-50 flex items-center justify-between cursor-pointer border-b border-slate-200 select-none transition-colors" onclick="toggleFolder('sub-trackers', 'icon-site-trackers')">
+            <div class="flex items-center gap-2">
+              <i id="icon-site-trackers" data-lucide="chevron-down" class="text-[10px] text-slate-400 transition-transform duration-150"></i>
+              <i data-lucide="shield-alert" class="text-rose-500 text-xs"></i>
+              <span class="font-sans font-bold text-slate-800 text-2xs tracking-tight">Rastreadores de terceros:</span>
+              <span class="text-3xs font-mono font-bold text-rose-600 bg-rose-50 px-1.5 rounded-md border border-rose-200">320 detectados</span>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); cleanGroup(this, 320)" class="h-5 px-2 rounded-md text-3xs font-sans font-bold bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 active:scale-95 transition-all flex items-center gap-1 shadow-2xs cursor-pointer">
+              <i data-lucide="eraser" class="text-[8px]"></i>
+              <span>Limpiar (320)</span>
+            </button>
+          </div>
+
+          <div id="sub-trackers" class="divide-y divide-slate-200/50 bg-slate-50/40">
+            <div class="subdomain-section folder-group" data-domain=".doubleclick.net">
+              <div class="reveal-host h-7 px-4 pl-7 bg-slate-50 hover:bg-slate-100/80 flex items-center justify-between cursor-pointer border-b border-slate-200/50 select-none transition-colors" onclick="toggleFolder('cookies-tr-doubleclick', 'icon-tr-doubleclick')">
+                <div class="flex items-center gap-2">
+                  <i id="icon-tr-doubleclick" data-lucide="chevron-down" class="text-[9px] text-slate-400 transition-transform duration-150"></i>
+                  <i data-lucide="folder" class="text-rose-500 text-[11px]"></i>
+                  <span class="font-mono text-slate-700 text-3xs font-semibold">.doubleclick.net</span>
+                  <span class="text-3xs font-sans text-rose-600">Google Ads (2)</span>
+                </div>
+                <button type="button" onclick="event.stopPropagation(); cleanGroup(this)" class="reveal h-4 px-1.5 rounded text-3xs font-sans text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer">Limpiar</button>
+              </div>
+              <div id="cookies-tr-doubleclick" class="divide-y divide-slate-200/40 bg-card/40">
+                <div class="item-row reveal-host h-8 px-4 pl-12 flex items-center justify-between gap-3 hover:bg-rose-50/40 transition-colors" data-value="AHWqTUv_9281xQe" data-http-only data-secure data-same-site="None" data-expires="2027-09-12T10:00">
+                  <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                    <input type="checkbox" onchange="updateGlobalSelectionState()" class="global-item-check ui-checkbox" aria-label="Seleccionar">
+                    <button type="button" onclick="toggleLock(this)" class="lock-btn text-slate-300 hover:text-slate-500 transition-colors cursor-pointer" data-locked="false" title="Proteger con candado" aria-label="Proteger con candado"><i data-lucide="lock-open" class="text-[10px]"></i></button>
+                    <span class="row-key font-medium text-slate-700 truncate">IDE</span>
+                    <span class="text-slate-400 truncate max-w-[140px]">AHWqTUv_9281...</span>
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button type="button" onclick="openCookieEditor(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Editar" aria-label="Editar"><i data-lucide="pencil" class="text-[9px]"></i></button>
+                    <button type="button" onclick="deleteRow(this)" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center cursor-pointer" title="Eliminar" aria-label="Eliminar"><i data-lucide="trash-2" class="text-[10px]"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- VISTA 3: AUTO (RE-CARD CON BARRA W-1 + GESTOR WHITELIST / BLACKLIST)  -->
+    <!-- ===================================================================== -->
+    <div id="viewAuto" class="hidden flex-1 overflow-y-auto p-4 space-y-4 font-sans text-2xs">
+      
+      <!-- RE-CARD DE EJECUCIÓN AUTOMÁTICA (Mismo contrato RuleCard de ReRoute) -->
+      <article id="autoCard" class="relative overflow-hidden bg-card border border-slate-200 rounded-xl p-3.5 pl-4 space-y-3 shadow-sm transition-all">
+        <!-- Barra lateral izquierda w-1 de la Suite -->
+        <div id="autoCardBar" class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500 transition-colors"></div>
+
+        <div class="flex items-center justify-between gap-3 pb-2.5 border-b border-slate-200/80">
+          <div class="flex items-center gap-2">
+            <span id="autoDot" class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="text-sm font-bold tracking-tight text-slate-800">Ejecución Automática</span>
+            <div class="relative">
+              <select class="h-6 bg-slate-50 border border-slate-200 rounded-md px-2 pr-5 text-slate-700 font-mono text-3xs font-semibold appearance-none focus:outline-none focus:border-brand-500 cursor-pointer">
+                <option value="1">Cada 1 min</option>
+                <option value="5">Cada 5 min</option>
+                <option value="15" selected>Cada 15 min</option>
+                <option value="30">Cada 30 min</option>
+                <option value="60">Cada 1 hora</option>
+              </select>
+              <i data-lucide="chevron-down" class="text-[8px] text-slate-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+          </div>
+
+          <!-- ReSwitch oficial de la Suite (h-4 w-8) -->
+          <label class="relative inline-flex cursor-pointer items-center select-none shrink-0">
+            <input type="checkbox" role="switch" checked class="peer sr-only" onchange="toggleAutoTimerSwitch(this.checked)" />
+            <span class="h-4 w-8 rounded-full bg-slate-300 transition-colors duration-200 peer-checked:bg-brand-500"></span>
+            <span class="pointer-events-none absolute top-0.5 left-0.5 size-3 rounded-full bg-white shadow-xs transition-transform duration-200 peer-checked:translate-x-4"></span>
+          </label>
+        </div>
+
+        <!-- Las 3 Casillas de Tareas del Temporizador con .ui-checkbox -->
+        <div class="space-y-2 text-2xs">
+          <span class="text-3xs text-slate-400 font-bold uppercase tracking-wider block">¿Qué debe limpiar el temporizador en cada ciclo?</span>
+
+          <label class="flex items-start gap-2.5 cursor-pointer text-slate-600 hover:text-slate-800 transition-colors">
+            <input type="checkbox" checked class="mt-0.5 ui-checkbox">
+            <span class="leading-relaxed">
+              Eliminar los <strong class="text-rose-600 font-semibold">rastreadores</strong> conocidos de todos los sitios.
+            </span>
+          </label>
+
+          <label class="flex items-start gap-2.5 cursor-pointer text-slate-600 hover:text-slate-800 transition-colors">
+            <input type="checkbox" checked class="mt-0.5 ui-checkbox">
+            <span class="leading-relaxed">
+              Eliminar las cookies de los sitios de mi <strong class="text-slate-800 font-semibold">Lista Negra</strong>.
+            </span>
+          </label>
+
+          <label class="flex items-start gap-2.5 cursor-pointer text-slate-500 hover:text-slate-800 transition-colors">
+            <input type="checkbox" class="mt-0.5 ui-checkbox">
+            <span class="leading-relaxed">
+              <strong class="text-slate-800 font-semibold">Modo estricto:</strong> eliminar también las cookies de todos los demás sitios.
+            </span>
+          </label>
+        </div>
+      </article>
+
+      <!-- SECCIÓN INFERIOR: ADMINISTRAR SITIOS (LISTA BLANCA / LISTA NEGRA) -->
+      <div class="space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="text-3xs font-bold text-slate-400 uppercase tracking-wider">Administrar sitios del temporizador</span>
+          <!-- ReSegmented Lista Blanca vs Lista Negra -->
+          <div class="flex items-center bg-slate-50 p-0.5 rounded-lg border border-slate-200 text-3xs font-semibold">
+            <button type="button" id="btnAutoWhitelist" onclick="setAutoList('whitelist')" class="px-2 py-0.5 rounded-md bg-card dark:bg-slate-300 text-emerald-700 border border-slate-200/50 shadow-xs transition-colors flex items-center gap-1 cursor-pointer">
+              <i data-lucide="shield-check" class="text-[8px] text-emerald-500"></i>
+              <span>Lista Blanca (<span id="countWl">2</span>)</span>
+            </button>
+            <button type="button" id="btnAutoBlacklist" onclick="setAutoList('blacklist')" class="px-2 py-0.5 rounded-md border border-transparent text-slate-500 hover:text-slate-700 transition-colors flex items-center gap-1 cursor-pointer">
+              <i data-lucide="shield-x" class="text-[8px]"></i>
+              <span>Lista Negra (<span id="countBl">2</span>)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Input de Dominio con app-input-group + ReButton -->
+        <div class="space-y-1.5">
+          <div class="flex gap-1.5">
+            <div class="app-input-group flex-1">
+              <i data-lucide="globe" class="text-[10px] pointer-events-none"></i>
+              <input type="text" id="autoDomainInput" onkeydown="if (event.key === 'Enter') addAutoDomain()" placeholder="ej. *.google.*, *.github.com, x.com" class="h-full w-full bg-transparent text-2xs font-mono text-slate-700 placeholder:text-slate-400 focus:outline-none" />
+            </div>
+            <button type="button" onclick="addAutoDomain()" class="h-7 px-3 rounded-lg text-2xs font-semibold bg-primary text-primary-foreground hover:opacity-90 active:scale-95 transition-all shrink-0 cursor-pointer shadow-xs">
+              Añadir
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between text-3xs font-mono text-slate-400 px-0.5">
+            <button type="button" onclick="addCurrentTabAuto()" class="hover:text-brand-600 transition-colors flex items-center gap-1 cursor-pointer">
+              <i data-lucide="corner-down-right" class="text-[9px] text-slate-400"></i>
+              <span>Añadir activa: <strong class="text-slate-700">gist.github.com</strong></span>
+            </button>
+            <span id="autoListDesc" class="text-slate-400 font-sans">Sitios que nunca se limpian</span>
+          </div>
+        </div>
+
+        <!-- LISTA DINÁMICA DE SITIOS REGISTRADOS -->
+        <div id="autoDomainsList" class="divide-y divide-slate-200/70 border border-slate-200 rounded-xl bg-card overflow-hidden font-mono text-2xs shadow-2xs">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 4. STATUS BAR: el ÚNICO lugar fijo donde se dice la garantía. Los botones solo dicen el verbo;
+         el toast lo confirma con cifras; la ayuda lo explica entero (ReDesign › patterns/guarantee.md).
+         Exportar/Importar viven en el engranaje. -->
+    <footer class="h-8 px-3.5 bg-card border-t border-slate-200 flex items-center justify-between gap-3 text-2xs font-sans text-slate-500 shrink-0">
+      <div class="flex items-center gap-1.5 min-w-0" title="Ningún botón de limpiar, el temporizador, la lista negra ni el modo estricto borran cookies con candado ni cookies de sitios en tu lista blanca. Solo se borran si las eliminas tú, una a una.">
+        <i data-lucide="shield-check" class="text-[10px] text-emerald-500 shrink-0"></i>
+        <span class="truncate"><strong class="font-semibold text-slate-700">Lo protegido nunca se limpia:</strong> cookies con candado y sitios en lista blanca.</span>
+      </div>
+      <button type="button" onclick="openHelp('helpProtection')" class="text-brand-600 hover:underline font-semibold transition-colors shrink-0 cursor-pointer">Detalles</button>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- CAPAS DEL POPUP: viven dentro del contenedor 540×600, nunca en la ventana -->
+    <!-- ===================================================================== -->
+
+    <!-- Toast (ReToast): cifras del resultado + Deshacer cuando se puede -->
+    <div id="toast" role="status" aria-live="polite" class="absolute bottom-11 left-1/2 -translate-x-1/2 z-[60] max-w-[480px] flex items-center gap-3 bg-slate-800 text-card font-sans font-semibold text-2xs pl-3 pr-1.5 h-8 rounded-lg shadow-xl opacity-0 pointer-events-none transition-opacity duration-200">
+      <span id="toastMsg" class="truncate">Acción ejecutada</span>
+      <button type="button" id="toastAction" class="hidden h-6 px-2 rounded-md font-bold underline underline-offset-2 hover:bg-white/10 cursor-pointer shrink-0">Deshacer</button>
+    </div>
+
+    <!-- EDITOR DE COOKIE (ReDialog). Mismo diálogo para "Nueva cookie" y "Editar cookie".
+         Orden: identidad → contenido → ámbito → duración → seguridad → protección (ReDesign › patterns/editor-dialog.md). -->
+    <div id="cookieEditor" class="hidden absolute inset-0 z-40 bg-black/55 backdrop-blur-[2px] p-3 flex items-center justify-center" onclick="if (event.target === this) closeCookieEditor()">
+      <form id="cookieForm" role="dialog" aria-modal="true" aria-labelledby="ceTitle" novalidate onsubmit="saveCookie(event)" class="w-full max-w-[500px] max-h-full bg-card border border-slate-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden font-sans text-2xs text-slate-700">
+
+        <header class="h-12 px-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-3 shrink-0">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="size-7 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center shrink-0">
+              <i data-lucide="cookie" class="text-[11px]"></i>
+            </div>
+            <div class="min-w-0">
+              <h3 id="ceTitle" class="text-xs font-bold text-slate-800 tracking-tight">Editar cookie</h3>
+              <p id="ceSubtitle" class="font-mono text-2xs text-slate-400 truncate">.github.com · /</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeCookieEditor()" class="size-7 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors flex items-center justify-center cursor-pointer" title="Cerrar" aria-label="Cerrar">
+            <i data-lucide="x" class="text-xs"></i>
+          </button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+
+          <!-- 1. Identidad -->
+          <div class="space-y-1">
+            <label for="ceName" class="block font-semibold text-slate-600">Nombre</label>
+            <div class="app-input-group" id="ceNameGroup">
+              <input type="text" id="ceName" oninput="updateEditorHints()" spellcheck="false" autocomplete="off" placeholder="session_id" class="h-full w-full bg-transparent font-mono text-2xs text-slate-800 placeholder:text-slate-400 focus:outline-none" />
+            </div>
+            <p id="ceNameError" class="hidden text-rose-600"></p>
+            <p id="cePrefixHint" class="hidden text-slate-500"></p>
+          </div>
+
+          <!-- 2. Contenido -->
+          <div class="space-y-1">
+            <div class="flex items-center justify-between gap-2">
+              <label for="ceValue" class="font-semibold text-slate-600">Valor</label>
+              <div class="flex items-center gap-1.5">
+                <div class="seg" id="ceValueSeg">
+                  <button type="button" data-mode="raw" aria-pressed="true" onclick="setValueMode('raw')">Original</button>
+                  <button type="button" data-mode="decoded" aria-pressed="false" id="ceDecodedBtn" onclick="setValueMode('decoded')">
+                    Decodificado <span id="ceFormat" class="font-mono"></span>
+                  </button>
+                </div>
+                <button type="button" onclick="copyCurrentValue()" class="size-6 rounded-md text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors flex items-center justify-center cursor-pointer" title="Copiar valor" aria-label="Copiar valor">
+                  <i data-lucide="copy" class="text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+            <textarea id="ceValue" rows="3" oninput="updateEditorHints()" spellcheck="false" class="block w-full rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 focus:bg-card focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 p-2.5 font-mono text-2xs text-slate-800 leading-relaxed resize-none break-all transition-colors"></textarea>
+            <div id="ceDecoded" class="hidden rounded-lg border border-slate-200 bg-slate-50 p-2.5">
+              <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-200 text-slate-400">
+                <span id="ceDecodedLabel">Payload del JWT</span>
+                <span>Solo lectura</span>
+              </div>
+              <pre id="ceDecodedPre" class="font-mono text-2xs text-slate-700 leading-relaxed overflow-auto max-h-32 whitespace-pre-wrap break-all"></pre>
+            </div>
+            <p class="flex items-center justify-between gap-3 text-slate-400">
+              <span id="ceValueHint">Valor exacto guardado en el navegador.</span>
+              <span id="ceSize" class="font-mono shrink-0" title="Chrome no guarda cookies cuyo nombre y valor superen 4096 bytes">0 / 4096 B</span>
+            </p>
+          </div>
+
+          <!-- 3. Ámbito -->
+          <div class="space-y-1">
+            <div class="grid grid-cols-[1fr_128px] gap-2.5">
+              <div class="space-y-1">
+                <label for="ceDomain" class="block font-semibold text-slate-600">Dominio</label>
+                <div class="app-input-group" id="ceDomainGroup">
+                  <input type="text" id="ceDomain" oninput="updateEditorHints()" spellcheck="false" autocomplete="off" placeholder=".github.com" class="h-full w-full bg-transparent font-mono text-2xs text-slate-800 placeholder:text-slate-400 focus:outline-none" />
+                </div>
+              </div>
+              <div class="space-y-1">
+                <label for="cePath" class="block font-semibold text-slate-600">Ruta</label>
+                <div class="app-input-group" id="cePathGroup">
+                  <input type="text" id="cePath" oninput="updateEditorHints()" spellcheck="false" autocomplete="off" placeholder="/" class="h-full w-full bg-transparent font-mono text-2xs text-slate-800 placeholder:text-slate-400 focus:outline-none" />
+                </div>
+              </div>
+            </div>
+            <p id="ceScopeError" class="hidden text-rose-600"></p>
+            <p class="text-slate-400">Con punto inicial (<span class="font-mono">.github.com</span>) también la reciben los subdominios.</p>
+            <p id="ceIdentityHint" class="hidden flex items-start gap-1.5 text-slate-600">
+              <i data-lucide="triangle-alert" class="text-[11px] text-slate-500 mt-0.5"></i>
+              <span>Cambiar el nombre, el dominio o la ruta crea una cookie nueva y elimina la anterior.</span>
+            </p>
+          </div>
+
+          <!-- 4. Duración: modos excluyentes en segmented; fecha nativa + atajos, sin calendario propio -->
+          <div class="space-y-2">
+            <span class="block font-semibold text-slate-600">Duración</span>
+            <div class="seg" id="ceExpSeg">
+              <button type="button" data-exp="session" aria-pressed="false" onclick="setExpiration('session')">
+                <i data-lucide="log-out" class="text-[9px]"></i>Hasta cerrar el navegador
+              </button>
+              <button type="button" data-exp="date" aria-pressed="true" onclick="setExpiration('date')">
+                <i data-lucide="calendar" class="text-[9px]"></i>Fecha fija
+              </button>
+            </div>
+            <p id="ceSessionNotice" class="hidden flex items-start gap-1.5 rounded-lg bg-slate-50 border border-slate-200 p-2 text-slate-500 leading-relaxed">
+              <i data-lucide="info" class="text-[10px] text-slate-400 mt-0.5"></i>
+              <span>El navegador la borra al cerrar todas sus ventanas.</span>
+            </p>
+            <div id="ceDateWrap" class="space-y-1.5">
+              <div class="app-input-group" id="ceExpiresGroup">
+                <i data-lucide="clock" class="text-[10px] pointer-events-none"></i>
+                <input type="datetime-local" id="ceExpires" oninput="updateExpiryHint()" class="h-full w-full bg-transparent font-mono text-2xs text-slate-800 focus:outline-none" />
+              </div>
+              <div class="flex items-center gap-1 flex-wrap">
+                <span class="text-slate-400 mr-0.5">Desde ahora:</span>
+                <button type="button" onclick="presetExpiry(1)" class="h-6 px-2 rounded-md border border-slate-200 bg-card text-2xs font-semibold text-slate-600 hover:border-slate-300 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer">1 hora</button>
+                <button type="button" onclick="presetExpiry(24)" class="h-6 px-2 rounded-md border border-slate-200 bg-card text-2xs font-semibold text-slate-600 hover:border-slate-300 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer">1 día</button>
+                <button type="button" onclick="presetExpiry(24 * 30)" class="h-6 px-2 rounded-md border border-slate-200 bg-card text-2xs font-semibold text-slate-600 hover:border-slate-300 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer">30 días</button>
+                <button type="button" onclick="presetExpiry(24 * 400)" class="h-6 px-2 rounded-md border border-slate-200 bg-card text-2xs font-semibold text-slate-600 hover:border-slate-300 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer">400 días (máx.)</button>
+              </div>
+              <p id="ceExpiryHint" class="text-slate-400"></p>
+            </div>
+          </div>
+
+          <!-- 5. Opciones técnicas -->
+          <fieldset class="rounded-xl border border-slate-200 px-3 pb-3 pt-1 space-y-2.5">
+            <legend class="px-1 text-2xs font-bold uppercase tracking-wider text-slate-400">Seguridad</legend>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="flex items-start gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:border-slate-300 transition-colors cursor-pointer">
+                <input type="checkbox" id="ceHttpOnly" class="ui-checkbox mt-0.5">
+                <span>
+                  <span class="block font-semibold text-slate-700">HttpOnly</span>
+                  <span class="block text-slate-400">Invisible para los scripts de la página</span>
+                </span>
+              </label>
+              <label class="flex items-start gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:border-slate-300 transition-colors cursor-pointer">
+                <input type="checkbox" id="ceSecure" onchange="updateEditorHints()" class="ui-checkbox mt-0.5">
+                <span>
+                  <span class="block font-semibold text-slate-700">Secure</span>
+                  <span class="block text-slate-400">Solo se envía por HTTPS</span>
+                </span>
+              </label>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-semibold text-slate-700">SameSite</span>
+              <div class="seg w-56" id="ceSameSiteSeg">
+                <button type="button" data-same-site="Lax" aria-pressed="true" onclick="setSameSite('Lax')">Lax</button>
+                <button type="button" data-same-site="Strict" aria-pressed="false" onclick="setSameSite('Strict')">Strict</button>
+                <button type="button" data-same-site="None" aria-pressed="false" onclick="setSameSite('None')">None</button>
+              </div>
+            </div>
+            <p id="ceSameSiteHint" class="text-slate-400"></p>
+            <p id="ceSecureHint" class="hidden flex items-start gap-1.5 text-slate-600">
+              <i data-lucide="info" class="text-[11px] text-slate-400 mt-0.5"></i>
+              <span id="ceSecureHintText"></span>
+            </p>
+          </fieldset>
+
+          <!-- 6. Estado de producto: el candado es de la cookie; la lista blanca es del sitio y aquí solo se informa -->
+          <div class="space-y-2">
+            <label class="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-slate-200 bg-slate-50/60 hover:border-slate-300 transition-colors cursor-pointer">
+              <span class="flex items-start gap-2.5">
+                <i data-lucide="lock" class="text-slate-500 text-xs mt-0.5"></i>
+                <span>
+                  <span class="block font-semibold text-slate-800">Proteger con candado</span>
+                  <span class="block text-slate-400">Ninguna limpieza la borrará.</span>
+                </span>
+              </span>
+              <span class="relative inline-flex items-center shrink-0">
+                <input type="checkbox" role="switch" id="ceLocked" class="peer sr-only" />
+                <span class="h-4 w-8 rounded-full bg-slate-300 transition-colors duration-200 peer-checked:bg-brand-500 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500/40"></span>
+                <span class="pointer-events-none absolute top-0.5 left-0.5 size-3 rounded-full bg-white shadow-xs transition-transform duration-200 peer-checked:translate-x-4"></span>
+              </span>
+            </label>
+            <p id="ceWhitelistNotice" class="hidden flex items-start gap-2 rounded-lg border border-emerald-200 bg-emerald-50 p-2 text-emerald-700 leading-relaxed">
+              <i data-lucide="shield-check" class="text-[10px] text-emerald-500 mt-0.5"></i>
+              <span><strong id="ceWlPattern" class="font-mono">github.com</strong> está en tu lista blanca: esta cookie ya está protegida, tenga candado o no.</span>
+            </p>
+          </div>
+        </div>
+
+        <footer class="h-12 px-4 border-t border-slate-200 bg-slate-50 flex items-center gap-2 shrink-0">
+          <button type="button" id="ceDeleteBtn" onclick="deleteFromEditor()" class="h-7 px-2.5 rounded-lg text-2xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center gap-1.5 cursor-pointer">
+            <i data-lucide="trash-2" class="text-[10px]"></i>
+            <span>Eliminar</span>
+          </button>
+          <div class="ml-auto flex items-center gap-2">
+            <button type="button" onclick="closeCookieEditor()" class="h-7 px-3 rounded-lg text-2xs font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer">Cancelar</button>
+            <button type="submit" class="h-7 px-3.5 rounded-lg text-2xs font-semibold bg-primary text-primary-foreground hover:opacity-90 active:scale-95 transition-all shadow-xs cursor-pointer">Guardar</button>
+          </div>
+        </footer>
+      </form>
+    </div>
+
+    <!-- CONFIRMACIÓN (ReDialog --confirm): nombra el objeto y la consecuencia; el botón repite el verbo -->
+    <div id="confirmDialog" class="hidden absolute inset-0 z-50 bg-black/55 backdrop-blur-[2px] p-3 flex items-center justify-center">
+      <div role="alertdialog" aria-modal="true" aria-labelledby="cfTitle" aria-describedby="cfMessage" class="w-full max-w-[320px] bg-card border border-slate-200 rounded-2xl shadow-2xl p-4 font-sans">
+        <div class="flex items-start gap-3">
+          <span class="size-8 rounded-full bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0">
+            <i data-lucide="triangle-alert" class="text-xs"></i>
+          </span>
+          <div class="min-w-0 space-y-1 pt-0.5">
+            <h3 id="cfTitle" class="text-xs font-bold text-slate-800 break-words"></h3>
+            <p id="cfMessage" class="text-2xs text-slate-500 leading-relaxed"></p>
+          </div>
+        </div>
+        <div class="mt-4 flex justify-end gap-2">
+          <button type="button" id="cfCancel" onclick="closeConfirm()" class="h-7 px-3 rounded-lg text-2xs font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer">Cancelar</button>
+          <button type="button" id="cfConfirm" class="h-7 px-3.5 rounded-lg text-2xs font-semibold bg-rose-600 text-card hover:opacity-90 active:scale-95 transition-all cursor-pointer">Eliminar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AYUDA Y ATAJOS. En el producto es una página en pestaña nueva, como en ReRoute; aquí se simula encima del popup.
+         Es el ÚNICO sitio donde la garantía se explica entera. -->
+    <div id="helpPanel" class="hidden absolute inset-0 z-40 bg-background flex flex-col font-sans text-2xs text-slate-600">
+      <header class="h-12 px-3.5 bg-card border-b border-slate-200 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <div class="size-7 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600">
+            <i data-lucide="circle-help" class="text-[12px]"></i>
+          </div>
+          <span class="text-xs font-bold text-slate-800 tracking-tight">Ayuda y atajos</span>
+        </div>
+        <button type="button" onclick="closeHelp()" class="size-7 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors flex items-center justify-center cursor-pointer" title="Cerrar" aria-label="Cerrar">
+          <i data-lucide="x" class="text-xs"></i>
+        </button>
+      </header>
+
+      <div class="flex-1 overflow-y-auto p-4 space-y-5 leading-relaxed">
+        <section id="helpProtection" class="space-y-2">
+          <h4 class="text-xs font-bold text-slate-800">Qué protege ReSession</h4>
+          <div class="flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-emerald-700">
+            <i data-lucide="shield-check" class="text-xs text-emerald-500 mt-0.5"></i>
+            <p><strong class="font-bold">Lo protegido nunca se limpia.</strong> Ninguna acción de ReSession que borre en lote toca una cookie protegida, por ningún camino.</p>
+          </div>
+          <p>Una cookie está protegida si cumple cualquiera de estas dos condiciones:</p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Tiene <strong class="text-slate-800">candado</strong> <i data-lucide="lock" class="text-[10px] text-slate-700"></i>.</li>
+            <li>Su sitio está en tu <strong class="text-slate-800">lista blanca</strong> <i data-lucide="shield-check" class="text-[10px] text-emerald-500"></i>, tenga candado o no.</li>
+          </ul>
+          <p>Esto vale para todos los botones <strong class="text-slate-800">Limpiar</strong> (carpetas, selección y «Limpiar todo»), para el <strong class="text-slate-800">temporizador</strong>, la <strong class="text-slate-800">lista negra</strong>, el <strong class="text-slate-800">modo estricto</strong> y la limpieza de <strong class="text-slate-800">rastreadores</strong>. Si un sitio está a la vez en la lista blanca y en la negra, gana la blanca.</p>
+          <p>Lo protegido solo se borra si lo eliminas tú, una cookie cada vez, con la papelera o desde el editor. ReSession te pedirá confirmación.</p>
+          <p>Después de cada limpieza verás las cifras: <span class="font-mono text-slate-700">7 eliminadas · 3 protegidas se conservan</span>.</p>
+        </section>
+
+        <section class="space-y-2">
+          <h4 class="text-xs font-bold text-slate-800">Qué hace cada botón</h4>
+          <dl class="grid grid-cols-[72px_1fr] gap-x-3 gap-y-1.5">
+            <dt class="font-semibold text-slate-800">Eliminar</dt><dd>Borra una sola cookie o clave, la que eliges.</dd>
+            <dt class="font-semibold text-slate-800">Limpiar</dt><dd>Borra todo lo que no está protegido de una carpeta, de la selección o del navegador.</dd>
+            <dt class="font-semibold text-slate-800">Vaciar</dt><dd>Borra todo el localStorage o el sessionStorage de la pestaña. El storage no tiene candado: siempre se pide confirmación.</dd>
+          </dl>
+        </section>
+
+        <section class="space-y-2">
+          <h4 class="text-xs font-bold text-slate-800">Atajos de teclado</h4>
+          <div class="rounded-xl border border-slate-200 bg-card divide-y divide-slate-200">
+            <div class="h-9 px-3 flex items-center justify-between"><span>Abrir ReSession</span><span class="flex gap-0.5"><kbd>Alt</kbd><kbd>⇧</kbd><kbd>S</kbd></span></div>
+            <div class="h-9 px-3 flex items-center justify-between"><span>Limpiar la pestaña actual</span><span class="flex gap-0.5"><kbd>Alt</kbd><kbd>⇧</kbd><kbd>L</kbd></span></div>
+            <div class="h-9 px-3 flex items-center justify-between"><span>Buscar</span><kbd>/</kbd></div>
+            <div class="h-9 px-3 flex items-center justify-between"><span>Cerrar el editor, el menú o esta ayuda</span><kbd>Esc</kbd></div>
+          </div>
+          <p class="text-slate-400">Los dos primeros se cambian en <span class="font-mono">chrome://extensions/shortcuts</span>.</p>
+        </section>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== CONTROLADOR DE INTERACCIÓN ==================== -->
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const icons = () => window.lucide?.createIcons();
+    const plural = (n, one, many) => `${n.toLocaleString('es-MX')} ${n === 1 ? one : many}`;
+
+    let activeNav = 'tab';
+    let activeTabType = 'cookies';
+    let activeAutoList = 'whitelist';
+    // "github.com" cubre github.com y .github.com (no gist.github.com). "*.github.com" cubre además todos sus subdominios.
+    let whitelistDomains = ['github.com', '*.google.*'];
+    let blacklistDomains = ['x.com', '*.mercadolibre.*'];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAutoDomains();
+      updateTabSelectionState();
+      icons();
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#settingsMenu, #btnSettings')) closeSettingsMenu();
+      });
+      document.addEventListener('keydown', onGlobalKeydown);
+    });
+
+    // ------------------------------------------------------------------
+    // Protección: réplica de engine/protection. TODO borrado en lote pasa por isProtected().
+    // ------------------------------------------------------------------
+    const escapeRe = (s) => s.replace(/[.+?^${}()|[\]\\]/g, '\\$&');
+    const normalizeDomain = (d) => (d || '').trim().toLowerCase().replace(/^\./, '');
+
+    function domainMatches(pattern, domain) {
+      const p = normalizeDomain(pattern);
+      const d = normalizeDomain(domain);
+      if (!p.includes('*')) return d === p;
+      const body = p.replace(/^\*\./, '\u0000').split('*').map(escapeRe).join('.+').replace('\u0000', '(?:.+\\.)?');
+      return new RegExp(`^${body}$`).test(d);
+    }
+
+    const whitelistMatch = (domain) => whitelistDomains.find((p) => domainMatches(p, domain)) || null;
+    const rowDomain = (row) => row.closest('[data-domain]')?.dataset.domain || '';
+    const isCookieRow = (row) => !!row.querySelector('.lock-btn');
+    const isLocked = (row) => row.querySelector('.lock-btn')?.dataset.locked === 'true';
+    const isProtected = (row) => isCookieRow(row) && (isLocked(row) || !!whitelistMatch(rowDomain(row)));
+    const rowName = (row) => row.querySelector('.row-key, .font-semibold')?.textContent.trim() || 'Elemento';
+
+    // Borra lo no protegido de "rows" y lo dice con cifras. "display" permite simular volúmenes grandes.
+    function cleanRows(rows, display) {
+      const removable = rows.filter((r) => !isProtected(r));
+      const kept = rows.length - removable.length;
+      const removedCount = display?.removed ?? removable.length;
+      const keptCount = display?.kept ?? kept;
+
+      if (removedCount === 0) {
+        showToast(keptCount ? `Nada que limpiar: ${plural(keptCount, 'cookie protegida', 'cookies protegidas')}` : 'Nada que limpiar');
+        return;
+      }
+      const snapshot = removeWithSnapshot(removable);
+      const msg = `${plural(removedCount, 'cookie eliminada', 'cookies eliminadas')}` + (keptCount ? ` · ${plural(keptCount, 'protegida se conserva', 'protegidas se conservan')}` : '');
+      showToast(msg, () => restoreSnapshot(snapshot));
+    }
+
+    function removeWithSnapshot(rows) {
+      const snapshot = rows.map((row) => ({ row, parent: row.parentNode, next: row.nextSibling }));
+      rows.forEach((r) => r.remove());
+      refreshSelection();
+      return snapshot;
+    }
+
+    function restoreSnapshot(snapshot) {
+      snapshot.slice().reverse().forEach(({ row, parent, next }) => parent.insertBefore(row, next));
+      refreshSelection();
+      showToast('Restaurado');
+    }
+
+    function refreshSelection() {
+      updateTabSelectionState();
+      updateGlobalSelectionState();
+    }
+
+    // ------------------------------------------------------------------
+    // Navegación
+    // ------------------------------------------------------------------
+    function switchNav(nav) {
+      activeNav = nav;
+      const btnTab = $('navTabScope');
+      const btnGlobal = $('navGlobalScope');
+      const btnAuto = $('navAutoScope');
+
+      const vTab = $('viewTab');
+      const vGlobal = $('viewGlobal');
+      const vAuto = $('viewAuto');
+
+      const inactiveClass = "px-2.5 py-1 rounded-md border border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-1.5 transition-all cursor-pointer";
+      const activeClass = "px-2.5 py-1 rounded-md bg-card dark:bg-slate-300 text-slate-800 border border-slate-200/50 shadow-xs flex items-center gap-1.5 transition-all cursor-pointer";
+
+      [btnTab, btnGlobal, btnAuto].forEach(b => b.className = inactiveClass);
+      [vTab, vGlobal, vAuto].forEach(v => v.classList.add('hidden'));
+
+      if (nav === 'tab') {
+        btnTab.className = activeClass;
+        vTab.classList.remove('hidden');
+      } else if (nav === 'global') {
+        btnGlobal.className = activeClass;
+        vGlobal.classList.remove('hidden');
+      } else {
+        btnAuto.className = activeClass;
+        vAuto.classList.remove('hidden');
+      }
+      $('btnAddCookie').classList.toggle('hidden', nav === 'auto');
+    }
+
+    function setTabType(type) {
+      activeTabType = type;
+      const pCookies = $('pillCookies');
+      const pStorage = $('pillStorage');
+      const treeCookies = $('tabTreeCookies');
+      const treeStorage = $('tabTreeStorage');
+
+      const activePill = "px-2 py-1 rounded-md bg-card dark:bg-slate-300 text-slate-800 border border-slate-200/50 shadow-xs transition-colors cursor-pointer";
+      const inactivePill = "px-2 py-1 rounded-md border border-transparent text-slate-500 hover:text-slate-700 transition-colors cursor-pointer";
+
+      if (type === 'cookies') {
+        pCookies.className = activePill;
+        pStorage.className = inactivePill;
+        treeCookies.classList.remove('hidden');
+        treeStorage.classList.add('hidden');
+      } else {
+        pStorage.className = activePill;
+        pCookies.className = inactivePill;
+        treeStorage.classList.remove('hidden');
+        treeCookies.classList.add('hidden');
+      }
+      // El storage no tiene candado
+      $('btnTabProtect').classList.toggle('hidden', type === 'storage');
+      updateTabSelectionState();
+    }
+
+    // ------------------------------------------------------------------
+    // Selección y lote: Esta pestaña
+    // ------------------------------------------------------------------
+    const activeTabTree = () => (activeTabType === 'cookies' ? $('tabTreeCookies') : $('tabTreeStorage'));
+
+    function updateTabSelectionState() {
+      const activeTree = activeTabTree();
+      const checkedBoxes = activeTree.querySelectorAll('.item-row input[type="checkbox"]:checked');
+      const allBoxes = activeTree.querySelectorAll('.item-row input[type="checkbox"]');
+      const masterCheck = $('selectAllTabCheckbox');
+      const label = $('tabSelectionLabel');
+      const btnProtectText = $('btnTabProtectText');
+      const btnCleanText = $('btnTabCleanText');
+
+      if (checkedBoxes.length > 0) {
+        masterCheck.indeterminate = checkedBoxes.length < allBoxes.length;
+        masterCheck.checked = checkedBoxes.length === allBoxes.length;
+        label.innerText = `${checkedBoxes.length} seleccionada${checkedBoxes.length > 1 ? 's' : ''}`;
+        btnProtectText.innerText = `Proteger (${checkedBoxes.length})`;
+        btnCleanText.innerText = activeTabType === 'storage' ? `Eliminar (${checkedBoxes.length})` : `Limpiar (${checkedBoxes.length})`;
+      } else {
+        masterCheck.indeterminate = false;
+        masterCheck.checked = false;
+        label.innerText = `Seleccionar todo (${allBoxes.length})`;
+        btnProtectText.innerText = "Proteger todas";
+        btnCleanText.innerText = activeTabType === 'storage' ? 'Vaciar' : 'Limpiar';
+      }
+    }
+
+    function toggleSelectAllTab(checked) {
+      activeTabTree().querySelectorAll('.item-row input[type="checkbox"]').forEach(cb => cb.checked = checked);
+      updateTabSelectionState();
+    }
+
+    function handleBatchProtect() {
+      const activeTree = activeTabTree();
+      const checked = [...activeTree.querySelectorAll('.item-row input[type="checkbox"]:checked')];
+      const buttons = checked.length
+        ? checked.map((cb) => cb.closest('.item-row').querySelector('.lock-btn')).filter(Boolean)
+        : [...activeTree.querySelectorAll('.lock-btn')];
+      buttons.forEach((btn) => setLockVisual(btn, true));
+      showToast(`${plural(buttons.length, 'cookie protegida', 'cookies protegidas')} con candado`);
+    }
+
+    function handleBatchClean() {
+      const activeTree = activeTabTree();
+      const selected = [...activeTree.querySelectorAll('.item-row input[type="checkbox"]:checked')].map((cb) => cb.closest('.item-row'));
+
+      if (activeTabType === 'storage') {
+        // Storage: sin protección. Selección = eliminar esas claves; sin selección = vaciar, con confirmación.
+        if (selected.length) {
+          const snapshot = removeWithSnapshot(selected);
+          showToast(`${plural(selected.length, 'clave eliminada', 'claves eliminadas')}`, () => restoreSnapshot(snapshot));
+          return;
+        }
+        const all = [...activeTree.querySelectorAll('.item-row')];
+        askConfirm({
+          title: '¿Vaciar el storage de gist.github.com?',
+          message: `Se eliminarán ${plural(all.length, 'clave', 'claves')} de localStorage y sessionStorage. El storage no tiene candado.`,
+          confirmLabel: 'Vaciar',
+          onConfirm: () => {
+            removeWithSnapshot(all);
+            showToast(`Storage vaciado · ${plural(all.length, 'clave eliminada', 'claves eliminadas')}`);
+          },
+        });
+        return;
+      }
+      cleanRows(selected.length ? selected : [...activeTree.querySelectorAll('.item-row')]);
+    }
+
+    // "Limpiar" de una carpeta (o sitio). "simulated" = cifra real en el producto cuando la maqueta solo pinta unas filas.
+    function cleanGroup(btn, simulated) {
+      const rows = [...btn.closest('.folder-group').querySelectorAll('.item-row')];
+      cleanRows(rows, simulated ? { removed: simulated, kept: 0 } : undefined);
+    }
+
+    function emptyStorage(btn, areaName) {
+      const rows = [...btn.closest('.folder-group').querySelectorAll('.item-row')];
+      askConfirm({
+        title: `¿Vaciar ${areaName}?`,
+        message: `Se eliminarán ${plural(rows.length, 'clave', 'claves')} de gist.github.com. El storage no tiene candado.`,
+        confirmLabel: 'Vaciar',
+        onConfirm: () => {
+          removeWithSnapshot(rows);
+          showToast(`${areaName} vaciado`);
+        },
+      });
+    }
+
+    // ------------------------------------------------------------------
+    // Selección y lote: Global
+    // ------------------------------------------------------------------
+    function toggleSelectAllGlobal(checked) {
+      $('viewGlobal').querySelectorAll('.global-item-check').forEach(cb => cb.checked = checked);
+      updateGlobalSelectionState();
+    }
+
+    function updateGlobalSelectionState() {
+      const checked = $('viewGlobal').querySelectorAll('.global-item-check:checked').length;
+      const total = $('viewGlobal').querySelectorAll('.global-item-check').length;
+      const master = $('selectAllGlobalCheckbox');
+      master.checked = checked > 0 && checked === total;
+      master.indeterminate = checked > 0 && checked < total;
+      $('globalSelectionLabel').innerText = checked ? `${checked} seleccionada${checked > 1 ? 's' : ''}` : 'Seleccionar todo (1.4k)';
+      $('btnGlobalProtect').disabled = checked === 0;
+      $('btnGlobalProtectText').innerText = checked ? `Proteger (${checked})` : 'Proteger';
+      $('btnGlobalCleanText').innerText = checked ? `Limpiar (${checked})` : 'Limpiar todo';
+    }
+
+    function handleGlobalProtect() {
+      const rows = [...$('viewGlobal').querySelectorAll('.global-item-check:checked')].map((cb) => cb.closest('.item-row'));
+      rows.forEach((row) => setLockVisual(row.querySelector('.lock-btn'), true));
+      showToast(`${plural(rows.length, 'cookie protegida', 'cookies protegidas')} con candado`);
+    }
+
+    function handleGlobalClean() {
+      const selected = [...$('viewGlobal').querySelectorAll('.global-item-check:checked')].map((cb) => cb.closest('.item-row'));
+      if (selected.length) {
+        cleanRows(selected);
+        return;
+      }
+      // Primero se calcula qué se borrará (sin lo protegido) y luego se pregunta con la cifra real.
+      askConfirm({
+        title: '¿Limpiar todo el navegador?',
+        message: 'Se eliminarán 1,083 cookies de 84 sitios. 337 protegidas se conservan.',
+        confirmLabel: 'Limpiar',
+        onConfirm: () => cleanRows([...$('globalTree').querySelectorAll('.item-row')], { removed: 1083, kept: 337 }),
+      });
+    }
+
+    // ------------------------------------------------------------------
+    // Candado y borrado individual
+    // ------------------------------------------------------------------
+    function toggleLock(btn) {
+      const row = btn.closest('.item-row');
+      const locked = !isLocked(row);
+      setLockVisual(btn, locked);
+      const wl = whitelistMatch(rowDomain(row));
+      if (locked) showToast(`${rowName(row)} protegida con candado`);
+      else showToast(wl ? `Candado quitado · sigue protegida por la lista blanca (${wl})` : `Candado quitado de ${rowName(row)}`);
+    }
+
+    function setLockVisual(btn, locked) {
+      const size = btn.querySelector('svg, i')?.classList.contains('text-[10px]') ? 'text-[10px]' : 'text-[11px]';
+      const keySpan = btn.closest('.item-row').querySelector('.row-key');
+      const label = locked ? 'Quitar candado' : 'Proteger con candado';
+      btn.title = label;
+      btn.setAttribute('aria-label', label);
+      btn.dataset.locked = String(locked);
+      // Sin color de marca: el estado se lee por la forma (lock / lock-open) y el peso de la clave
+      btn.className = locked
+        ? 'lock-btn text-slate-700 hover:opacity-80 transition-opacity cursor-pointer'
+        : 'lock-btn text-slate-300 hover:text-slate-500 transition-colors cursor-pointer';
+      btn.innerHTML = `<i data-lucide="${locked ? 'lock' : 'lock-open'}" class="${size}"></i>`;
+      if (keySpan) keySpan.className = locked ? 'row-key font-semibold text-slate-800 truncate' : 'row-key font-medium text-slate-600 truncate';
+      icons();
+    }
+
+    // Borrar a mano UNA fila: es la única vía para borrar algo protegido, y se confirma.
+    function deleteRow(btn) {
+      const row = btn.closest('.item-row');
+      if (isProtected(row)) {
+        confirmProtectedDelete(row, () => removeOne(row));
+        return;
+      }
+      removeOne(row);
+    }
+
+    function confirmProtectedDelete(row, onConfirm) {
+      const wl = whitelistMatch(rowDomain(row));
+      const reason = isLocked(row) ? 'Tiene candado.' : `Su sitio está en tu lista blanca (${wl}).`;
+      askConfirm({
+        title: `¿Eliminar ${rowName(row)}?`,
+        message: `${reason} Se borrará solo esta cookie y el sitio puede cerrar tu sesión.`,
+        confirmLabel: 'Eliminar',
+        onConfirm,
+      });
+    }
+
+    function removeOne(row) {
+      const name = rowName(row);
+      const snapshot = removeWithSnapshot([row]);
+      showToast(`${name} eliminada`, () => restoreSnapshot(snapshot));
+    }
+
+    function copyText(text) {
+      navigator.clipboard?.writeText(text);
+      showToast("Copiado al portapapeles");
+    }
+
+    // ------------------------------------------------------------------
+    // Carpetas
+    // ------------------------------------------------------------------
+    function toggleFolder(itemsId, iconId) {
+      const items = $(itemsId);
+      const icon = $(iconId);
+      if (!items || !icon) return;
+      items.classList.toggle('hidden');
+      icon.classList.toggle('-rotate-90');
+    }
+
+    // Vive en la barra de lote de cada vista y solo afecta a esa vista
+    function toggleAllFolders(btn) {
+      const view = btn.closest('#viewTab, #viewGlobal');
+      const collapse = btn.dataset.collapsed !== 'true';
+      view.querySelectorAll('[id^="items-tab-"], [id^="sub-"], [id^="cookies-"]').forEach(el => el.classList.toggle('hidden', collapse));
+      view.querySelectorAll('[id^="icon-tab-"], [id^="icon-site-"], [id^="icon-gh-"], [id^="icon-tr-"]').forEach(i => i.classList.toggle('-rotate-90', collapse));
+      btn.dataset.collapsed = String(collapse);
+      const label = collapse ? 'Expandir todo' : 'Contraer todo';
+      btn.title = label;
+      btn.setAttribute('aria-label', label);
+      btn.innerHTML = `<i data-lucide="${collapse ? 'chevrons-up-down' : 'chevrons-down-up'}" class="text-[11px]"></i>`;
+      icons();
+    }
+
+    function applyFilter(scope) {
+      const inputId = scope === 'tab' ? 'tabFilterInput' : 'globalFilterInput';
+      const q = $(inputId).value.trim().toLowerCase();
+      const containerId = scope === 'tab' ? (activeTabType === 'cookies' ? 'tabTreeCookies' : 'tabTreeStorage') : 'viewGlobal';
+      const rows = $(containerId).querySelectorAll('.item-row');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        if (!q) {
+          row.classList.remove('hidden');
+        } else if (q.startsWith('!')) {
+          const exclude = q.slice(1).trim();
+          row.classList.toggle('hidden', exclude.length > 0 && text.includes(exclude));
+        } else {
+          row.classList.toggle('hidden', !text.includes(q));
+        }
+      });
+    }
+
+    // ------------------------------------------------------------------
+    // Auto: temporizador y listas
+    // ------------------------------------------------------------------
+    function setAutoList(list) {
+      activeAutoList = list;
+      const bWl = $('btnAutoWhitelist');
+      const bBl = $('btnAutoBlacklist');
+      const desc = $('autoListDesc');
+
+      if (list === 'whitelist') {
+        bWl.className = "px-2 py-0.5 rounded-md bg-card dark:bg-slate-300 text-emerald-700 border border-slate-200/50 shadow-xs transition-colors flex items-center gap-1 cursor-pointer";
+        bBl.className = "px-2 py-0.5 rounded-md border border-transparent text-slate-500 hover:text-slate-700 transition-colors flex items-center gap-1 cursor-pointer";
+        desc.innerText = "Sitios que nunca se limpian";
+      } else {
+        bBl.className = "px-2 py-0.5 rounded-md bg-card dark:bg-slate-300 text-rose-700 border border-slate-200/50 shadow-xs transition-colors flex items-center gap-1 cursor-pointer";
+        bWl.className = "px-2 py-0.5 rounded-md border border-transparent text-slate-500 hover:text-slate-700 transition-colors flex items-center gap-1 cursor-pointer";
+        desc.innerText = "Sitios que se limpian en cada ciclo";
+      }
+      renderAutoDomains();
+    }
+
+    function renderAutoDomains() {
+      const container = $('autoDomainsList');
+      const list = activeAutoList === 'whitelist' ? whitelistDomains : blacklistDomains;
+      $('countWl').innerText = whitelistDomains.length;
+      $('countBl').innerText = blacklistDomains.length;
+
+      if (list.length === 0) {
+        container.innerHTML = '<div class="p-3 text-center text-slate-400 italic text-3xs">No hay sitios registrados en esta lista.</div>';
+        return;
+      }
+
+      container.innerHTML = list.map((domain, idx) => {
+        const isWildcard = domain.includes('*');
+        const badge = isWildcard ? 'COMODÍN' : 'EXACTO';
+        const badgeStyle = isWildcard ? 'bg-slate-100 text-slate-700 border border-slate-200 font-bold' : 'bg-slate-100 text-slate-600 border border-slate-200';
+        const desc = activeAutoList === 'whitelist'
+          ? (isWildcard ? 'Nunca se limpia, con todos sus subdominios' : 'Nunca se limpia este dominio exacto')
+          : (isWildcard ? 'Se limpia en cada ciclo, con todos sus subdominios' : 'Se limpia en cada ciclo');
+        const icon = activeAutoList === 'whitelist' ? 'shield-check" class="text-emerald-500' : 'shield-x" class="text-rose-500';
+
+        return `
+          <div class="rule-row reveal-host p-2.5 px-3 flex items-center justify-between gap-3 hover:bg-slate-50 transition-colors">
+            <div class="flex items-center gap-2.5 min-w-0 flex-1">
+              <i data-lucide="${icon} text-xs shrink-0"></i>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="font-semibold text-slate-800 truncate">${domain}</span>
+                  <span class="text-3xs font-mono px-1.5 rounded ${badgeStyle}">${badge}</span>
+                </div>
+                <p class="text-3xs font-sans text-slate-400 truncate mt-0.5">${desc}</p>
+              </div>
+            </div>
+            <button type="button" onclick="removeAutoDomain(${idx})" class="reveal size-6 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition-colors shrink-0 cursor-pointer" title="Quitar de la lista" aria-label="Quitar de la lista">
+              <i data-lucide="trash-2" class="text-[11px]"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+      icons();
+    }
+
+    function addAutoDomain() {
+      const input = $('autoDomainInput');
+      const val = input.value.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+      if (!val) {
+        showToast("Escribe un dominio válido");
+        return;
+      }
+      const target = activeAutoList === 'whitelist' ? whitelistDomains : blacklistDomains;
+      if (target.includes(val)) {
+        showToast(`${val} ya está en esta lista`);
+        return;
+      }
+      // La lista blanca manda: un sitio protegido no puede entrar en la negra.
+      const wl = activeAutoList === 'blacklist' ? whitelistMatch(val.replace(/^\*\./, '')) : null;
+      if (wl) {
+        showToast(wl === val ? `${val} está en la lista blanca: nunca se limpia` : `${val} está en la lista blanca (${wl}): nunca se limpia`);
+        return;
+      }
+      if (activeAutoList === 'whitelist' && blacklistDomains.includes(val)) {
+        blacklistDomains = blacklistDomains.filter((d) => d !== val);
+      }
+      target.unshift(val);
+      input.value = "";
+      renderAutoDomains();
+      showToast(`Añadido a ${activeAutoList === 'whitelist' ? 'Lista Blanca' : 'Lista Negra'}`);
+    }
+
+    function addCurrentTabAuto() {
+      $('autoDomainInput').value = 'gist.github.com';
+      addAutoDomain();
+    }
+
+    function removeAutoDomain(idx) {
+      const list = activeAutoList === 'whitelist' ? whitelistDomains : blacklistDomains;
+      const [removed] = list.splice(idx, 1);
+      renderAutoDomains();
+      showToast(`${removed} quitado de la lista`, () => {
+        list.splice(idx, 0, removed);
+        renderAutoDomains();
+      });
+    }
+
+    function toggleAutoTimerSwitch(isOn) {
+      const card = $('autoCard');
+      const bar = $('autoCardBar');
+      const dot = $('autoDot');
+      card.classList.toggle('opacity-60', !isOn);
+      bar.className = 'absolute left-0 top-0 bottom-0 w-1 ' + (isOn ? 'bg-emerald-500' : 'bg-slate-300');
+      dot.className = 'size-2 rounded-full ' + (isOn ? 'bg-emerald-500' : 'bg-slate-300');
+      showToast(isOn ? "Temporizador automático activado" : "Temporizador automático pausado");
+    }
+
+    // ------------------------------------------------------------------
+    // Engranaje: idioma, tema, transferir, ayuda
+    // ------------------------------------------------------------------
+    function toggleSettingsMenu() {
+      const open = $('settingsMenu').classList.contains('hidden');
+      $('settingsMenu').classList.toggle('hidden', !open);
+      $('btnSettings').setAttribute('aria-expanded', String(open));
+    }
+
+    function closeSettingsMenu() {
+      $('settingsMenu').classList.add('hidden');
+      $('btnSettings').setAttribute('aria-expanded', 'false');
+    }
+
+    function pressIn(segId, predicate) {
+      $(segId).querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(predicate(b))));
+    }
+
+    function setLanguage(lang, btn) {
+      pressIn('langSeg', (b) => b === btn);
+      showToast(lang === 'en' ? 'English · la maqueta sigue en español' : 'Idioma: español');
+    }
+
+    let themeMode = 'dark';
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    systemDark.addEventListener('change', () => themeMode === 'system' && applyTheme());
+
+    function setTheme(mode) {
+      themeMode = mode;
+      pressIn('themeSeg', (b) => b.dataset.theme === mode);
+      applyTheme();
+    }
+
+    function applyTheme() {
+      const dark = themeMode === 'dark' || (themeMode === 'system' && systemDark.matches);
+      document.documentElement.classList.toggle('dark', dark);
+    }
+
+    function openHelp(sectionId) {
+      $('helpPanel').classList.remove('hidden');
+      if (sectionId) $(sectionId).scrollIntoView({ block: 'start' });
+    }
+
+    function closeHelp() {
+      $('helpPanel').classList.add('hidden');
+    }
+
+    // ------------------------------------------------------------------
+    // Editor de cookie
+    // ------------------------------------------------------------------
+    let editingRow = null;
+    let originalIdentity = null;
+    let valueMode = 'raw';
+    let expirationType = 'date';
+    let sameSite = 'Lax';
+
+    const SAME_SITE_HINTS = {
+      Lax: 'Se envía al llegar al sitio desde un enlace, no en peticiones de otros sitios.',
+      Strict: 'Solo se envía en peticiones del propio sitio.',
+      None: 'Se envía también desde otros sitios.',
+    };
+
+    const pad = (n) => String(n).padStart(2, '0');
+    const toLocalInput = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    const fromNow = (hours) => toLocalInput(new Date(Date.now() + hours * 3600 * 1000));
+    const identityOf = () => `${$('ceName').value.trim()}|${normalizeDomain($('ceDomain').value)}|${$('cePath').value.trim()}`;
+
+    function readRow(row) {
+      return {
+        name: rowName(row),
+        value: row.dataset.value || '',
+        domain: rowDomain(row),
+        path: row.dataset.path || '/',
+        httpOnly: 'httpOnly' in row.dataset,
+        secure: 'secure' in row.dataset,
+        sameSite: row.dataset.sameSite || 'Lax',
+        expires: row.dataset.expires || 'session',
+        locked: isLocked(row),
+      };
+    }
+
+    function openCookieEditor(trigger) {
+      if (!trigger && activeNav === 'tab' && activeTabType === 'storage') {
+        showToast('Añadir claves de storage: fuera de esta maqueta');
+        return;
+      }
+      const row = trigger ? trigger.closest('.item-row') : null;
+      const isNew = !row;
+      const data = row
+        ? readRow(row)
+        : { name: '', value: '', domain: activeNav === 'tab' ? 'gist.github.com' : '', path: '/', httpOnly: false, secure: true, sameSite: 'Lax', expires: fromNow(24 * 30), locked: false };
+
+      editingRow = row;
+      $('ceTitle').textContent = isNew ? 'Nueva cookie' : 'Editar cookie';
+      $('ceDeleteBtn').classList.toggle('hidden', isNew);
+      $('ceName').value = data.name;
+      $('ceValue').value = data.value;
+      $('ceDomain').value = data.domain;
+      $('cePath').value = data.path;
+      $('ceHttpOnly').checked = data.httpOnly;
+      $('ceSecure').checked = data.secure;
+      $('ceLocked').checked = data.locked;
+      $('ceExpires').value = data.expires === 'session' ? fromNow(24 * 30) : data.expires;
+      originalIdentity = isNew ? null : identityOf();
+
+      clearEditorErrors();
+      setValueMode('raw');
+      setExpiration(data.expires === 'session' ? 'session' : 'date');
+      setSameSite(data.sameSite);
+      closeSettingsMenu();
+      $('cookieEditor').classList.remove('hidden');
+      // Nueva: se empieza por el nombre. Edición: casi siempre se cambia el valor.
+      (isNew ? $('ceName') : $('ceValue')).focus();
+    }
+
+    function closeCookieEditor() {
+      $('cookieEditor').classList.add('hidden');
+      editingRow = null;
+    }
+
+    function detectFormat(value) {
+      const v = value.trim();
+      if (/^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*$/.test(v)) {
+        try { JSON.parse(b64url(v.split('.')[0])); return 'JWT'; } catch (e) { /* no es JWT */ }
+      }
+      if (/^[[{]/.test(v)) {
+        try { JSON.parse(v); return 'JSON'; } catch (e) { /* no es JSON */ }
+      }
+      if (/%[0-9A-F]{2}/i.test(v)) {
+        try { if (decodeURIComponent(v) !== v) return 'URL'; } catch (e) { /* secuencia inválida */ }
+      }
+      return null;
+    }
+
+    function b64url(part) {
+      const b64 = part.replace(/-/g, '+').replace(/_/g, '/');
+      return decodeURIComponent(escape(atob(b64 + '='.repeat((4 - (b64.length % 4)) % 4))));
+    }
+
+    function decodeValue(value, format) {
+      const v = value.trim();
+      if (format === 'JWT') return JSON.stringify(JSON.parse(b64url(v.split('.')[1])), null, 2);
+      if (format === 'JSON') return JSON.stringify(JSON.parse(v), null, 2);
+      if (format === 'URL') return decodeURIComponent(v);
+      return v;
+    }
+
+    function setValueMode(mode) {
+      const format = detectFormat($('ceValue').value);
+      valueMode = format ? mode : 'raw';
+      pressIn('ceValueSeg', (b) => b.dataset.mode === valueMode);
+      $('ceValue').classList.toggle('hidden', valueMode === 'decoded');
+      $('ceDecoded').classList.toggle('hidden', valueMode !== 'decoded');
+      if (valueMode === 'decoded') {
+        try {
+          $('ceDecodedPre').textContent = decodeValue($('ceValue').value, format);
+        } catch (e) {
+          $('ceDecodedPre').textContent = 'No se pudo decodificar.';
+        }
+        $('ceDecodedLabel').textContent = { JWT: 'Payload del JWT', JSON: 'JSON con formato', URL: 'Texto sin codificar' }[format];
+        $('ceValueHint').textContent = 'Pulsa «Original» para editar el valor.';
+      } else {
+        $('ceValueHint').textContent = 'Valor exacto guardado en el navegador.';
+      }
+      updateEditorHints();
+    }
+
+    function copyCurrentValue() {
+      navigator.clipboard?.writeText($('ceValue').value);
+      showToast('Valor copiado');
+    }
+
+    function setExpiration(type) {
+      expirationType = type;
+      pressIn('ceExpSeg', (b) => b.dataset.exp === type);
+      $('ceSessionNotice').classList.toggle('hidden', type !== 'session');
+      $('ceDateWrap').classList.toggle('hidden', type !== 'date');
+      updateExpiryHint();
+    }
+
+    function presetExpiry(hours) {
+      $('ceExpires').value = fromNow(hours);
+      updateExpiryHint();
+    }
+
+    function updateExpiryHint() {
+      const hint = $('ceExpiryHint');
+      const raw = $('ceExpires').value;
+      const date = raw ? new Date(raw) : null;
+      hint.className = 'text-slate-400';
+      if (!date || Number.isNaN(date.getTime())) {
+        hint.textContent = 'Elige una fecha.';
+        return;
+      }
+      const days = (date.getTime() - Date.now()) / 86400000;
+      const longDate = date.toLocaleDateString('es', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      if (days <= 0) {
+        hint.className = 'text-rose-600';
+        hint.textContent = 'Esa fecha ya pasó: al guardar, el navegador borrará la cookie.';
+      } else if (days > 400) {
+        hint.className = 'text-slate-600';
+        hint.textContent = `Chrome no permite más de 400 días: caducará antes del ${longDate}.`;
+      } else {
+        const rtf = new Intl.RelativeTimeFormat('es', { numeric: 'auto' });
+        const rel = days < 1 ? rtf.format(Math.round(days * 24), 'hour') : days < 60 ? rtf.format(Math.round(days), 'day') : rtf.format(Math.round(days / 30), 'month');
+        hint.textContent = `Caduca ${rel} · ${longDate}`;
+      }
+    }
+
+    function setSameSite(value) {
+      sameSite = value;
+      pressIn('ceSameSiteSeg', (b) => b.dataset.sameSite === value);
+      $('ceSameSiteHint').textContent = SAME_SITE_HINTS[value];
+      updateEditorHints();
+    }
+
+    // Avisos que dependen de lo escrito: prefijos, Secure obligatorio, identidad nueva, lista blanca, tamaño.
+    function updateEditorHints() {
+      const name = $('ceName').value.trim();
+      const domain = $('ceDomain').value.trim();
+      const path = $('cePath').value.trim() || '/';
+      const prefix = name.startsWith('__Host-') ? '__Host-' : name.startsWith('__Secure-') ? '__Secure-' : null;
+
+      $('ceSubtitle').textContent = `${domain || 'sin dominio'} · ${path}`;
+
+      const prefixHint = $('cePrefixHint');
+      prefixHint.classList.toggle('hidden', !prefix);
+      prefixHint.textContent = prefix === '__Host-'
+        ? 'Las cookies __Host- exigen Secure, la ruta / y un dominio sin punto inicial.'
+        : 'Las cookies __Secure- exigen Secure.';
+
+      const forced = sameSite === 'None' ? 'SameSite=None' : prefix;
+      const secure = $('ceSecure');
+      if (forced) secure.checked = true;
+      secure.disabled = !!forced;
+      $('ceSecureHint').classList.toggle('hidden', !forced);
+      $('ceSecureHintText').textContent = `${forced} obliga a usar Secure.`;
+
+      $('ceIdentityHint').classList.toggle('hidden', !originalIdentity || identityOf() === originalIdentity);
+
+      const wl = whitelistMatch(domain);
+      $('ceWhitelistNotice').classList.toggle('hidden', !wl);
+      $('ceWlPattern').textContent = wl || '';
+
+      const bytes = new TextEncoder().encode(name + $('ceValue').value).length;
+      $('ceSize').textContent = `${bytes} / 4096 B`;
+      $('ceSize').className = `font-mono shrink-0 ${bytes > 4096 ? 'text-rose-600' : ''}`;
+
+      const format = detectFormat($('ceValue').value);
+      $('ceDecodedBtn').disabled = !format;
+      $('ceFormat').textContent = format ? `{${format}}` : '';
+    }
+
+    function setFieldError(groupId, errorId, message) {
+      $(groupId)?.classList.toggle('!border-rose-500', !!message);
+      $(groupId)?.querySelector('input')?.setAttribute('aria-invalid', String(!!message));
+      $(errorId).classList.toggle('hidden', !message);
+      $(errorId).textContent = message || '';
+    }
+
+    function clearEditorErrors() {
+      setFieldError('ceNameGroup', 'ceNameError', null);
+      setFieldError('ceDomainGroup', 'ceScopeError', null);
+      $('cePathGroup').classList.remove('!border-rose-500');
+    }
+
+    function validateEditor() {
+      const name = $('ceName').value.trim();
+      const domain = $('ceDomain').value.trim();
+      const path = $('cePath').value.trim();
+      clearEditorErrors();
+
+      let nameError = null;
+      if (!name) nameError = 'Escribe un nombre.';
+      else if (/[\s;=,]/.test(name)) nameError = 'El nombre no puede tener espacios, «;», «=» ni «,».';
+      setFieldError('ceNameGroup', 'ceNameError', nameError);
+
+      let scopeError = null;
+      if (!domain) scopeError = 'Escribe un dominio.';
+      else if (!/^\.?[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test(domain)) scopeError = 'El dominio no es válido.';
+      else if (!path.startsWith('/')) scopeError = 'La ruta debe empezar por «/».';
+      else if (name.startsWith('__Host-') && (domain.startsWith('.') || path !== '/')) scopeError = 'Una cookie __Host- necesita la ruta / y un dominio sin punto inicial.';
+      setFieldError('ceDomainGroup', 'ceScopeError', scopeError);
+      if (scopeError && scopeError.includes('ruta')) $('cePathGroup').classList.add('!border-rose-500');
+
+      if (nameError) $('ceName').focus();
+      else if (scopeError) (scopeError.includes('ruta') ? $('cePath') : $('ceDomain')).focus();
+      return !nameError && !scopeError;
+    }
+
+    function saveCookie(event) {
+      event.preventDefault();
+      if (!validateEditor()) return;
+
+      const data = {
+        name: $('ceName').value.trim(),
+        value: $('ceValue').value,
+        domain: $('ceDomain').value.trim(),
+        path: $('cePath').value.trim(),
+        httpOnly: $('ceHttpOnly').checked,
+        secure: $('ceSecure').checked,
+        sameSite,
+        expires: expirationType === 'session' ? 'session' : $('ceExpires').value,
+        locked: $('ceLocked').checked,
+      };
+
+      if (editingRow) {
+        const renamed = identityOf() !== originalIdentity;
+        applyRow(editingRow, data);
+        closeCookieEditor();
+        showToast(renamed ? 'Guardada como cookie nueva · la anterior se eliminó' : 'Cambios guardados');
+        return;
+      }
+
+      const view = activeNav === 'global' ? $('globalTree') : $('tabTreeCookies');
+      const folder = [...view.querySelectorAll('.folder-group[data-domain]')].find((f) => normalizeDomain(f.dataset.domain) === normalizeDomain(data.domain))
+        || view.querySelector('.folder-group[data-domain]');
+      const items = folder.lastElementChild;
+      const row = items.querySelector('.item-row').cloneNode(true);
+      row.querySelector('input[type="checkbox"]').checked = false;
+      items.prepend(row);
+      applyRow(row, data);
+      if (normalizeDomain(folder.dataset.domain) !== normalizeDomain(data.domain)) row.dataset.domain = data.domain;
+      closeCookieEditor();
+      refreshSelection();
+      showToast(`${data.name} creada en ${data.domain}`);
+    }
+
+    function applyRow(row, data) {
+      row.querySelector('.row-key').textContent = data.name;
+      const preview = row.querySelector('.row-key').nextElementSibling;
+      if (preview) preview.textContent = data.value.length > 18 ? `${data.value.slice(0, 18)}...` : data.value;
+      row.dataset.value = data.value;
+      row.dataset.path = data.path;
+      row.dataset.sameSite = data.sameSite;
+      row.dataset.expires = data.expires;
+      data.httpOnly ? (row.dataset.httpOnly = '') : delete row.dataset.httpOnly;
+      data.secure ? (row.dataset.secure = '') : delete row.dataset.secure;
+      if (normalizeDomain(rowDomain(row)) !== normalizeDomain(data.domain)) row.dataset.domain = data.domain;
+      setLockVisual(row.querySelector('.lock-btn'), data.locked);
+
+      // Banderas visibles solo en la vista de pestaña (Global es más compacta)
+      if (row.closest('#tabTreeCookies')) {
+        row.querySelector('.row-flags')?.remove();
+        const flags = [data.httpOnly && ['H', 'HttpOnly'], data.secure && ['S', 'Secure']].filter(Boolean);
+        if (flags.length) {
+          const box = document.createElement('div');
+          box.className = 'row-flags flex items-center gap-1 text-3xs text-slate-500 font-mono mr-1';
+          box.innerHTML = flags.map(([l, t]) => `<span class="px-1 bg-slate-100 border border-slate-200 rounded font-semibold" title="${t}">${l}</span>`).join('');
+          row.lastElementChild.prepend(box);
+        }
+      }
+    }
+
+    function deleteFromEditor() {
+      const row = editingRow;
+      if (!row) return;
+      const done = () => { closeCookieEditor(); removeOne(row); };
+      if (isProtected(row)) confirmProtectedDelete(row, done);
+      else done();
+    }
+
+    // ------------------------------------------------------------------
+    // Confirmación, toast y teclado
+    // ------------------------------------------------------------------
+    function askConfirm({ title, message, confirmLabel, onConfirm }) {
+      $('cfTitle').textContent = title;
+      $('cfMessage').textContent = message;
+      $('cfConfirm').textContent = confirmLabel;
+      $('cfConfirm').onclick = () => { closeConfirm(); onConfirm(); };
+      $('confirmDialog').classList.remove('hidden');
+      $('cfCancel').focus();
+    }
+
+    function closeConfirm() {
+      $('confirmDialog').classList.add('hidden');
+    }
+
+    let toastTimer = null;
+    function showToast(msg, undo) {
+      const toast = $('toast');
+      const action = $('toastAction');
+      $('toastMsg').innerText = msg;
+      action.classList.toggle('hidden', !undo);
+      action.onclick = undo ? () => { hideToast(); undo(); } : null;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(hideToast, undo ? 5000 : 2200);
+    }
+
+    function hideToast() {
+      $('toast').classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function onGlobalKeydown(e) {
+      if (e.key === 'Escape') {
+        if (!$('confirmDialog').classList.contains('hidden')) closeConfirm();
+        else if (!$('cookieEditor').classList.contains('hidden')) closeCookieEditor();
+        else if (!$('helpPanel').classList.contains('hidden')) closeHelp();
+        else closeSettingsMenu();
+        return;
+      }
+      const typing = e.target.closest('input, textarea, select');
+      if (e.key === '/' && !typing && activeNav !== 'auto') {
+        e.preventDefault();
+        $(activeNav === 'tab' ? 'tabFilterInput' : 'globalFilterInput').focus();
+      }
+    }
+  </script>
+  </body>
+</html>

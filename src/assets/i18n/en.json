@@ -1,0 +1,257 @@
+{
+  "common": {
+    "add": "Add",
+    "cancel": "Cancel",
+    "clean": "Clean",
+    "close": "Close",
+    "copy": "Copy",
+    "delete": "Delete",
+    "empty": "Empty",
+    "save": "Save",
+    "select": "Select {{name}}"
+  },
+  "app": {
+    "cookiesCount": "Cookies ({{count}})",
+    "storageCount": "Storage ({{count}})"
+  },
+  "header": {
+    "views": "Views",
+    "tab": "This tab",
+    "globalCount": "Global ({{count}})",
+    "auto": "Auto",
+    "global": "Global"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "export": "Export settings",
+    "import": "Import settings",
+    "help": "Help and shortcuts"
+  },
+  "search": {
+    "tabPlaceholder": "Search by key, value or !exclusion…",
+    "globalPlaceholder": "Search cookies or domains across the browser…",
+    "clear": "Clear search"
+  },
+  "batch": {
+    "selectAll": "Select all ({{count}})",
+    "lock": "Lock",
+    "lockAll": "Lock all",
+    "lockNeedsSelection": "Select cookies to lock them",
+    "cleanAll": "Clean all",
+    "collapseAll": "Collapse all",
+    "selectedOne": "{{count}} selected",
+    "selectedMany": "{{count}} selected",
+    "lockCount": "Lock ({{count}})",
+    "cleanCount": "Clean ({{count}})",
+    "deleteCount": "Delete ({{count}})",
+    "expandAll": "Expand all"
+  },
+  "storage": {
+    "keysOne": "{{count}} key · {{size}}",
+    "keysMany": "{{count}} keys · {{size}}",
+    "expiresInHours": "Expires in {{count}} h",
+    "viewDecoded": "View decoded",
+    "viewOriginal": "View original",
+    "expiresIn": "Expires {{when}}",
+    "expired": "Expired {{when}}",
+    "noKeys": "No keys"
+  },
+  "global": {
+    "cookiesOne": "{{count}} cookie",
+    "cookiesMany": "{{count}} cookies",
+    "whitelistedTitle": "{{site}} is on your whitelist",
+    "thirdPartyTrackers": "Third-party trackers",
+    "detectedOne": "{{count}} detected",
+    "detectedMany": "{{count}} detected",
+    "empty": "There are no cookies in the browser",
+    "noMatches": "No cookie matches “{{query}}”"
+  },
+  "auto": {
+    "title": "Automatic run",
+    "interval": "Interval",
+    "everyMinutes": "Every {{count}} min",
+    "everyHoursOne": "Every {{count}} hour",
+    "timer": "Timer",
+    "cleanQuestion": "What should the timer clean on each cycle?",
+    "targets": {
+      "trackers": "Trackers",
+      "trackersDesc": "Removes known trackers from every site.",
+      "blacklist": "Blacklist",
+      "blacklistDesc": "Removes cookies from the sites on your blacklist.",
+      "strict": "Strict mode",
+      "strictDesc": "Also removes cookies from every other site."
+    },
+    "sites": "Timer sites",
+    "whitelistCount": "Whitelist ({{count}})",
+    "blacklistCount": "Blacklist ({{count}})",
+    "patternPlaceholder": "e.g. {{examples}}",
+    "addCurrentTab": "Add current tab: {{site}}",
+    "whitelistHint": "Sites that are never cleaned",
+    "blacklistHint": "Sites cleaned on every cycle",
+    "exact": "exact",
+    "wildcard": "wildcard",
+    "rules": {
+      "whitelistExact": "This exact domain is never cleaned",
+      "whitelistWildcard": "Never cleaned, including all its subdomains",
+      "blacklistExact": "Cleaned on every cycle",
+      "blacklistWildcard": "Cleaned on every cycle, including all its subdomains"
+    },
+    "removeFromList": "Remove from list",
+    "patternLabel": "Site or pattern",
+    "whitelistEmpty": "Your whitelist is empty.",
+    "blacklistEmpty": "Your blacklist is empty."
+  },
+  "status": {
+    "guaranteeTitle": "No Clean button, the timer, the blacklist or strict mode ever deletes locked cookies or cookies from whitelisted sites. They are only deleted if you delete them yourself, one by one.",
+    "guaranteeLead": "Protected items are never cleaned.",
+    "guaranteeText": "Locked cookies and whitelisted sites.",
+    "details": "Details"
+  },
+  "toast": {
+    "undo": "Undo",
+    "exported": "Downloaded {{file}}",
+    "importPage": "The import page would open",
+    "lockedOne": "{{count}} cookie locked",
+    "lockedMany": "{{count}} cookies locked",
+    "removedOne": "{{count}} cookie deleted",
+    "removedMany": "{{count}} cookies deleted",
+    "keptOne": "{{count}} protected kept",
+    "keptMany": "{{count}} protected kept",
+    "removed": "{{name}} deleted",
+    "copied": "Copied to clipboard",
+    "valueCopied": "Value copied",
+    "jwtPayload": "JWT payload",
+    "saved": "Changes saved",
+    "addedToList": "Added to the list",
+    "siteAdded": "{{site}} added to the list",
+    "siteRemoved": "{{site}} removed from the list",
+    "copyFailed": "Couldn't copy"
+  },
+  "editor": {
+    "titleNew": "New cookie",
+    "titleEdit": "Edit cookie",
+    "name": "Name",
+    "value": "Value",
+    "raw": "Raw",
+    "decoded": "Decoded",
+    "copyValue": "Copy value",
+    "rawHint": "Exact value stored in the browser.",
+    "sizeLimit": "Chrome does not store cookies whose name and value exceed {{max}} bytes",
+    "jwtPayload": "JWT payload",
+    "decodedHint": "JWT payload · read-only. Switch to “{{raw}}” to edit the value.",
+    "domain": "Domain",
+    "path": "Path",
+    "domainHint": "With a leading dot, subdomains receive it too, for example:",
+    "renameNotice": "Changing the name, domain or path creates a new cookie and deletes the old one.",
+    "duration": "Duration",
+    "untilClose": "Until the browser closes",
+    "fixedDate": "Fixed date",
+    "sessionNotice": "The browser deletes it when all its windows are closed.",
+    "fromNow": "From now:",
+    "hoursOne": "{{count}} hour",
+    "daysOne": "{{count}} day",
+    "daysMany": "{{count}} days",
+    "daysMax": "{{count}} days (max.)",
+    "expiresInDaysMany": "Expires in {{count}} days · {{date}}",
+    "security": "Security",
+    "httpOnlyDesc": "Hidden from the page's scripts",
+    "secureDesc": "Only sent over HTTPS",
+    "sameSiteLax": "Sent when arriving at the site from a link, not on requests from other sites.",
+    "sameSiteStrict": "Only sent on requests from the site itself.",
+    "sameSiteNone": "Also sent from other sites.",
+    "sameSiteNoneNotice": "SameSite=None requires Secure.",
+    "lockDesc": "No cleaning will delete it.",
+    "whitelistedLead": "{{site}} is on your whitelist.",
+    "whitelistedNotice": "This cookie is already protected, locked or not.",
+    "expiryLabel": "Expiration date",
+    "expiresAt": "Expires {{when}} · {{date}}",
+    "sameSiteUnspecified": "Not set: the browser treats it as Lax.",
+    "errors": {
+      "nameRequired": "Give it a name",
+      "nameInvalid": "The name can’t contain spaces, ; , = or control characters",
+      "hostPrefix": "A __Host- cookie must be Secure, with path / and no leading dot in the domain",
+      "securePrefix": "A __Secure- cookie must be Secure",
+      "valueInvalid": "The value can’t contain ; or line breaks",
+      "tooLarge": "Name and value exceed {{maxBytes}} bytes: Chrome won’t save it",
+      "domainRequired": "Give it a domain",
+      "domainInvalid": "Only letters, digits, . and -, with an optional leading dot",
+      "pathInvalid": "The path must start with /",
+      "expiresInvalid": "Set an expiration date",
+      "expired": "That date has passed: Chrome would delete it on save",
+      "tooFar": "Chrome doesn’t allow expirations more than {{maxDays}} days away"
+    }
+  },
+  "confirm": {
+    "deleteTitle": "Delete {{name}}?",
+    "lockedLead": "It is locked.",
+    "deleteLockedMessage": "Only this cookie will be deleted, and the site may sign you out."
+  },
+  "help": {
+    "title": "Help and shortcuts",
+    "protects": {
+      "title": "What ReSession protects",
+      "guaranteeLead": "Protected items are never cleaned.",
+      "guaranteeText": "No ReSession action that deletes in bulk ever touches a protected cookie, by any path.",
+      "conditions": "A cookie is protected if it meets either of these two conditions:",
+      "locked": "It is locked.",
+      "whitelisted": "Its site is on your whitelist, locked or not.",
+      "scope": {
+        "lead": "This applies to:",
+        "cleanButtons": "Every “Clean” button: folders, selection and “Clean all”",
+        "timer": "The timer",
+        "blacklist": "The blacklist",
+        "strict": "Strict mode",
+        "trackers": "Tracker cleaning",
+        "conflict": "If a site is on both the whitelist and the blacklist, the whitelist wins."
+      },
+      "manual": "Protected items are only deleted if you delete them yourself, one cookie at a time, with the trash button or from the editor. ReSession will ask you to confirm.",
+      "counts": "After each cleaning you will see the numbers:",
+      "countsExample": "{{removed}} deleted · {{kept}} protected kept"
+    },
+    "buttons": {
+      "title": "What each button does",
+      "deleteDesc": "Deletes a single cookie or key, the one you choose.",
+      "cleanDesc": "Deletes everything that is not protected in a folder, the selection or the whole browser.",
+      "emptyDesc": "Deletes all of the tab's localStorage or sessionStorage. Storage has no lock: you are always asked to confirm."
+    },
+    "shortcuts": {
+      "title": "Keyboard shortcuts",
+      "open": "Open ReSession",
+      "cleanTab": "Clean the current tab",
+      "search": "Search",
+      "close": "Close the editor, the menu or this help",
+      "hint": "The first two can be changed on Chrome’s shortcuts page:"
+    }
+  },
+  "cookies": {
+    "select": "Select {{name}}",
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "edit": "Edit",
+    "remove": "Delete",
+    "clean": "Clean",
+    "cleanCount": "Clean ({{count}})",
+    "whitelisted": "Whitelist",
+    "whitelistedTitle": "{{pattern}} is on your whitelist: nothing in this group is cleaned",
+    "nestedMeta": "{{kind}} · {{count}}",
+    "group": {
+      "host": "Current subdomain",
+      "root": "Shared root domain",
+      "trackers": "Trackers on this tab",
+      "trackersMeta": "Analytics and advertising",
+      "hostShort": "Subdomain",
+      "rootShort": "Root",
+      "trackersShort": "Tracker"
+    }
+  },
+  "tab": {
+    "noMatches": "Nothing matches “{{query}}”.",
+    "noCookies": "This site has no cookies.",
+    "noStorage": "This site has no storage."
+  }
+}

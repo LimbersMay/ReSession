@@ -1,0 +1,51 @@
+<ng-container *transloco="let t">
+  @if (request(); as question) {
+    <div class="re-dialog-overlay re-dialog-overlay--contained re-dialog-overlay--confirm">
+      <div
+        class="re-dialog re-dialog--confirm"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="cfTitle"
+        aria-describedby="cfMessage"
+        (keydown.tab)="onTab($event)"
+        (keydown.shift.tab)="onTab($event)"
+      >
+        <div class="re-dialog__confirm-body">
+          <span class="re-dialog__confirm-icon">
+            <ng-icon name="lucideTriangleAlert" size="15" />
+          </span>
+          <div class="min-w-0">
+            <h3 class="re-dialog__title" id="cfTitle">{{ question.title }}</h3>
+            <p class="re-dialog__message" id="cfMessage">
+              @if (question.lead) {
+                <strong>{{ question.lead }}</strong>
+              }
+              {{ question.message }}
+            </p>
+          </div>
+        </div>
+
+        <footer class="re-dialog__footer">
+          <button
+            #cancelButton
+            type="button"
+            class="re-btn re-btn--ghost"
+            (click)="confirm.answer(false)"
+          >
+            {{ t('common.cancel') }}
+          </button>
+          <button
+            #confirmButton
+            type="button"
+            class="re-btn"
+            [class.re-btn--danger]="question.isDestructive"
+            [class.re-btn--primary]="!question.isDestructive"
+            (click)="confirm.answer(true)"
+          >
+            {{ question.verb }}
+          </button>
+        </footer>
+      </div>
+    </div>
+  }
+</ng-container>

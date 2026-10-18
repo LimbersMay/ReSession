@@ -1,0 +1,44 @@
+/*
+ * ReSession · estilos globales.
+ * Todo el aspecto viene de ReDesign (tokens, puente a Tailwind y clases re-*). Aquí solo se carga, en
+ * este orden, y se declaran las fuentes. La identidad de ReSession vive en `brands/resession.css`:
+ * para cambiar la marca se cambia allí, nunca aquí (ReDesign › AGENTS.md R12).
+ */
+
+/*
+ * Orden de capas, antes que nada. @ng-icons pone su `color: currentColor` en `@layer ng-icon`, y el
+ * navegador la conoce al pintar el primer icono, después de las capas de Tailwind: ganaría a cualquier
+ * `text-*` sobre un icono. Declararla primero la deja como la más débil (igual que ReRoute).
+ */
+@layer ng-icon, theme, base, components, utilities;
+
+@import 'tailwindcss';
+@import 're-design/tailwind.css';
+@import 're-design/tokens.css';
+@import 're-design/brands/resession.css';
+@import 're-design/components.css';
+
+/* Fuentes incluidas en el paquete (solo el subset latin): el popup nunca depende de fuentes instaladas. */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')
+    format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url('../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2')
+    format('woff2-variations');
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--re-background);
+}

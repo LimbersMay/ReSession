@@ -1,0 +1,67 @@
+<ng-container *transloco="let t">
+  <div class="re-tree__row-main">
+    <input
+      type="checkbox"
+      class="re-checkbox"
+      [checked]="selected()"
+      [attr.aria-label]="t('common.select', { name: entry().key })"
+      (change)="toggleSelect.emit()"
+    />
+
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center gap-2">
+        <span class="re-tree__key re-tree__key--strong">{{ entry().key }}</span>
+
+        @if (format(); as fmt) {
+          <span class="re-badge">{{ fmt }}</span>
+        }
+
+        @if (hasExpiry()) {
+          <span class="re-hint" [class.re-hint--warning]="isExpired()">
+            {{ expiryHint() }}
+          </span>
+        }
+      </div>
+
+      <div class="re-tree__value max-w-full" [attr.title]="shownValue()">
+        {{ shownValue() }}
+      </div>
+    </div>
+  </div>
+
+  <div class="re-tree__row-end">
+    <button
+      type="button"
+      class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+      [title]="t('common.copy')"
+      [attr.aria-label]="t('common.copy')"
+      (click)="copyValue.emit(shownValue())"
+    >
+      <ng-icon name="lucideCopy" size="11" />
+    </button>
+
+    @if (canDecode()) {
+      <button
+        type="button"
+        class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+        [class.is-pinned]="isDecoded()"
+        [title]="decodeLabel()"
+        [attr.aria-label]="decodeLabel()"
+        [attr.aria-pressed]="isDecoded()"
+        (click)="toggleDecoded()"
+      >
+        <ng-icon name="lucideCode" size="11" />
+      </button>
+    }
+
+    <button
+      type="button"
+      class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+      [title]="t('common.delete')"
+      [attr.aria-label]="t('common.delete')"
+      (click)="remove.emit()"
+    >
+      <ng-icon name="lucideTrash2" size="11" />
+    </button>
+  </div>
+</ng-container>

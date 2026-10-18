@@ -1,0 +1,24 @@
+// Copy of the row lock of CookieItem (cookie-item.sass) for the hand-written rows of this mockup.
+// It goes away with them when GlobalView reuses CookieItem (guide step 06).
+.lock-btn
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+  padding: 0
+  border: 0
+  background: none
+  color: var(--re-slate-300)
+  cursor: pointer
+  transition: color 120ms ease
+
+  &:hover
+    color: var(--re-slate-500)
+
+  &.is-locked
+    color: var(--re-slate-700)
+
+  &:focus-visible
+    outline: 2px solid color-mix(in srgb, var(--re-ring) 55%, transparent)
+    outline-offset: 2px
+    border-radius: var(--re-radius-sm)

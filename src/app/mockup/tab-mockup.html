@@ -1,0 +1,115 @@
+<!--
+  View 1 mockup ("This tab"). Each "Block:" marker names the element right after it and the guide
+  step that replaces it. The whole component becomes TabView in guide step 05.
+-->
+<ng-container *transloco="let t">
+  <div class="flex shrink-0 items-center gap-2.5 border-b bg-card px-3.5 py-2">
+    <!-- Block: Search bar · replaced in guide step 04 -->
+    <div class="re-input-group flex-1">
+      <ng-icon name="lucideSearch" size="13" />
+      <input type="text" class="re-mono" [placeholder]="t('search.tabPlaceholder')" />
+    </div>
+
+    <!-- Block: Cookies/Storage switch · replaced in guide step 05 -->
+    <div class="re-segmented">
+      <button
+        type="button"
+        class="re-segmented__item"
+        [attr.aria-pressed]="isCookies()"
+        (click)="tabType.set('cookies')"
+      >
+        {{ t('app.cookiesCount', { count: cookieCount }) }}
+      </button>
+      <button
+        type="button"
+        class="re-segmented__item"
+        [attr.aria-pressed]="!isCookies()"
+        (click)="tabType.set('storage')"
+      >
+        {{ t('app.storageCount', { count: storageCount }) }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Block: Batch bar · replaced in guide step 04 -->
+  <div class="re-batchbar">
+    <label class="re-batchbar__select">
+      <input type="checkbox" class="re-checkbox" />
+      <span>{{ t('batch.selectAll', { count: itemCount() }) }}</span>
+    </label>
+    <div class="re-batchbar__actions">
+      @if (isCookies()) {
+        <button
+          type="button"
+          class="re-btn re-btn--xs re-btn--secondary"
+          (click)="notify.emit(t('toast.lockedMany', { count: cookieCount }))"
+        >
+          <ng-icon name="lucideLock" size="11" />{{ t('batch.lockAll') }}
+        </button>
+        <button
+          type="button"
+          class="re-btn re-btn--xs re-btn--secondary"
+          (click)="notify.emit(cleanSummary())"
+        >
+          <ng-icon name="lucideEraser" size="11" />{{ t('common.clean') }}
+        </button>
+      } @else {
+        <button
+          type="button"
+          class="re-btn re-btn--xs re-btn--secondary"
+          (click)="askConfirm.emit()"
+        >
+          <ng-icon name="lucideEraser" size="11" />{{ t('common.empty') }}
+        </button>
+      }
+      <button
+        type="button"
+        class="re-icon-btn re-icon-btn--sm"
+        [title]="t('batch.collapseAll')"
+        [attr.aria-label]="t('batch.collapseAll')"
+        (click)="toggleAllCollapsed()"
+      >
+        <ng-icon name="lucideChevronsDownUp" size="11" />
+      </button>
+    </div>
+  </div>
+
+  @if (isCookies()) {
+    <!-- Block: Cookie tree · built in guide step 01 -->
+    <div class="re-tree">
+      @for (group of tabGroups; track group.key) {
+        <app-cookie-container
+          [group]="group"
+          [lockedIds]="lockedIds"
+          [selectedIds]="selectedIds()"
+          [collapsed]="isCollapsed(group.key)"
+          (toggleSelect)="toggleSelected($event)"
+          (toggleCollapse)="toggleCollapsed(group.key)"
+        />
+      }
+    </div>
+  } @else {
+    <!-- Block: Storage tree · replaced in guide step 03 -->
+    <div class="re-tree">
+      <app-storage-container
+        area="local"
+        [origin]="tabOrigin"
+        [entries]="localStorageEntries"
+        [selectedIds]="selectedIds()"
+        [collapsed]="isCollapsed('st-local')"
+        (toggleSelect)="toggleSelected($event)"
+        (toggleCollapse)="toggleCollapsed('st-local')"
+      />
+
+      <app-storage-container
+        area="session"
+        [origin]="tabOrigin"
+        [entries]="sessionStorageEntries"
+        [selectedIds]="selectedIds()"
+        [collapsed]="isCollapsed('st-session')"
+        (toggleSelect)="toggleSelected($event)"
+        (toggleCollapse)="toggleCollapsed('st-session')"
+      />
+    </div>
+  }
+</ng-container>

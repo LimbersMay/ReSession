@@ -1,0 +1,60 @@
+<ng-container *transloco="let t; prefix: 'cookies'">
+  <div
+    class="re-tree__head"
+    appTreeHeadToggle
+    [collapsed]="collapsed()"
+    (toggleCollapse)="toggleCollapse.emit()"
+    [class.re-reveal-host]="revealsAction()"
+  >
+    <div class="re-tree__head-main">
+      <ng-icon class="re-tree__chevron" name="lucideChevronDown" size="11" />
+      <ng-icon class="re-tree__icon" [class.re-tree__icon--danger]="isTrackerList()" [name]="icon()" size="12" />
+
+      @if (isNested()) {
+        <span class="re-tree__key re-tree__key--strong">{{ title() }}</span>
+        <span class="re-tree__meta">{{ meta() }}</span>
+      } @else {
+        <span class="re-tree__label">{{ title() }}</span>
+        <span class="re-tree__meta">{{ meta() }}</span>
+        <span class="re-badge" [class.re-badge--micro]="!isTrackers()" [class.re-badge--danger]="isTrackers()">
+          {{ count() }}
+        </span>
+      }
+    </div>
+
+    <!-- Clicks and keys on the actions must not fold the group. -->
+    <div
+      class="re-tree__actions"
+      [class.re-reveal]="revealsAction()"
+    >
+      @switch (headAction()) {
+        @case ('whitelisted') {
+          <span class="re-pill re-pill--success" [title]="t('whitelistedTitle', { pattern: group().whitelistedBy })">
+            <ng-icon name="lucideShieldCheck" size="10" />{{ t('whitelisted') }}
+          </span>
+        }
+        @case ('cleanTrackers') {
+          <button type="button" class="re-btn re-btn--2xs re-btn--danger-soft">
+            <ng-icon name="lucideEraser" size="10" />{{ t('clean') }}
+          </button>
+        }
+        @case ('clean') {
+          <button type="button" class="re-btn re-btn--2xs re-btn--danger-ghost">{{ t('clean') }}</button>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="re-tree__items" [hidden]="collapsed()">
+    @for (row of rows(); track row.cookie.id) {
+      <app-cookie-item
+        [cookie]="row.cookie"
+        [locked]="row.locked"
+        [selected]="row.selected"
+        [danger]="isTrackers()"
+        [tag]="row.tag"
+        (toggleSelect)="toggleSelect.emit(row.cookie.id)"
+      />
+    }
+  </div>
+</ng-container>

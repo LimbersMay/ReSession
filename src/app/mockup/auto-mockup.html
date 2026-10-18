@@ -1,0 +1,206 @@
+<!-- View 3 mockup ("Auto"). The whole component becomes AutoView in guide step 07. -->
+<ng-container *transloco="let t">
+  <!-- The timer card -->
+  <article
+    class="re-card"
+    [class.is-paused]="!isTimerOn()"
+    style="--re-card-accent: var(--re-emerald-500)"
+  >
+    <div class="re-card__bar"></div>
+    <div class="re-card__header">
+      <div class="re-card__heading">
+        <span class="re-dot" [class.re-dot--live]="isTimerOn()"></span>
+        <h4 class="re-card__title">{{ t('auto.title') }}</h4>
+        <select class="re-select-inline re-mono" [attr.aria-label]="t('auto.interval')">
+          <option>{{ t('auto.everyMinutes', { count: 1 }) }}</option>
+          <option>{{ t('auto.everyMinutes', { count: 5 }) }}</option>
+          <option selected>{{ t('auto.everyMinutes', { count: 15 }) }}</option>
+          <option>{{ t('auto.everyMinutes', { count: 30 }) }}</option>
+          <option>{{ t('auto.everyHoursOne', { count: 1 }) }}</option>
+        </select>
+      </div>
+      <label class="re-switch" [title]="t('auto.timer')">
+        <input
+          type="checkbox"
+          role="switch"
+          [attr.aria-label]="t('auto.timer')"
+          [checked]="isTimerOn()"
+          (change)="toggleTimer()"
+        />
+        <span class="re-switch__track"></span>
+      </label>
+    </div>
+    <div class="re-card__body flex flex-col gap-2.5">
+      <span class="re-section-title">{{ t('auto.cleanQuestion') }}</span>
+      <label class="re-option">
+        <input type="checkbox" class="re-checkbox" checked />
+        <span class="re-option__text">
+          <span class="re-option__title">{{ t('auto.targets.trackers') }}</span>
+          <span class="re-option__desc">{{ t('auto.targets.trackersDesc') }}</span>
+        </span>
+      </label>
+      <label class="re-option">
+        <input type="checkbox" class="re-checkbox" checked />
+        <span class="re-option__text">
+          <span class="re-option__title">{{ t('auto.targets.blacklist') }}</span>
+          <span class="re-option__desc">{{ t('auto.targets.blacklistDesc') }}</span>
+        </span>
+      </label>
+      <label class="re-option">
+        <input type="checkbox" class="re-checkbox" />
+        <span class="re-option__text">
+          <span class="re-option__title">{{ t('auto.targets.strict') }}</span>
+          <span class="re-option__desc">{{ t('auto.targets.strictDesc') }}</span>
+        </span>
+      </label>
+    </div>
+  </article>
+
+  <!-- The timer's site lists -->
+  <section class="flex flex-col gap-2.5">
+    <div class="flex items-center justify-between">
+      <span class="re-section-title">{{ t('auto.sites') }}</span>
+      <div class="re-segmented re-segmented--sm">
+        <button
+          type="button"
+          class="re-segmented__item re-segmented__item--success"
+          [attr.aria-pressed]="isWhitelist()"
+          (click)="list.set('whitelist')"
+        >
+          <ng-icon name="lucideShieldCheck" size="10" />{{
+            t('auto.whitelistCount', { count: 2 })
+          }}
+        </button>
+        <button
+          type="button"
+          class="re-segmented__item re-segmented__item--danger"
+          [attr.aria-pressed]="!isWhitelist()"
+          (click)="list.set('blacklist')"
+        >
+          <ng-icon name="lucideShieldX" size="10" />{{ t('auto.blacklistCount', { count: 2 }) }}
+        </button>
+      </div>
+    </div>
+
+    <div class="flex gap-1.5">
+      <div class="re-input-group flex-1">
+        <ng-icon name="lucideGlobe" size="13" />
+        <input
+          type="text"
+          class="re-mono"
+          [placeholder]="t('auto.patternPlaceholder', { examples: '*.google.*, *.github.com, x.com' })"
+        />
+      </div>
+      <button
+        type="button"
+        class="re-btn re-btn--primary"
+        (click)="notify.emit(t('toast.addedToList'))"
+      >
+        {{ t('common.add') }}
+      </button>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <button
+        type="button"
+        class="re-btn re-btn--2xs re-btn--ghost"
+        (click)="notify.emit(t('toast.siteAdded', { site: 'gist.github.com' }))"
+      >
+        <ng-icon name="lucideCornerDownRight" size="10" />{{
+          t('auto.addCurrentTab', { site: 'gist.github.com' })
+        }}
+      </button>
+      <span class="re-hint">{{ listHint() }}</span>
+    </div>
+
+    <div class="re-list">
+      @if (isWhitelist()) {
+        <div class="re-list__row re-reveal-host">
+          <div class="flex min-w-0 flex-1 items-center gap-2.5">
+            <ng-icon name="lucideShieldCheck" size="12" class="shrink-0 text-emerald-500" />
+            <div class="min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="re-mono truncate font-semibold text-slate-800">github.com</span>
+                <span class="re-badge">{{ t('auto.exact') }}</span>
+              </div>
+              <p class="re-hint truncate">{{ t('auto.rules.whitelistExact') }}</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+            [title]="t('auto.removeFromList')"
+            [attr.aria-label]="t('auto.removeFromList')"
+            (click)="notify.emit(t('toast.siteRemoved', { site: 'github.com' }))"
+          >
+            <ng-icon name="lucideTrash2" size="11" />
+          </button>
+        </div>
+        <div class="re-list__row re-reveal-host">
+          <div class="flex min-w-0 flex-1 items-center gap-2.5">
+            <ng-icon name="lucideShieldCheck" size="12" class="shrink-0 text-emerald-500" />
+            <div class="min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="re-mono truncate font-semibold text-slate-800">*.google.*</span>
+                <span class="re-badge">{{ t('auto.wildcard') }}</span>
+              </div>
+              <p class="re-hint truncate">{{ t('auto.rules.whitelistWildcard') }}</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+            [title]="t('auto.removeFromList')"
+            [attr.aria-label]="t('auto.removeFromList')"
+            (click)="notify.emit(t('toast.siteRemoved', { site: '*.google.*' }))"
+          >
+            <ng-icon name="lucideTrash2" size="11" />
+          </button>
+        </div>
+      } @else {
+        <div class="re-list__row re-reveal-host">
+          <div class="flex min-w-0 flex-1 items-center gap-2.5">
+            <ng-icon name="lucideShieldX" size="12" class="shrink-0 text-rose-500" />
+            <div class="min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="re-mono truncate font-semibold text-slate-800">x.com</span>
+                <span class="re-badge">{{ t('auto.exact') }}</span>
+              </div>
+              <p class="re-hint truncate">{{ t('auto.rules.blacklistExact') }}</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+            [title]="t('auto.removeFromList')"
+            [attr.aria-label]="t('auto.removeFromList')"
+            (click)="notify.emit(t('toast.siteRemoved', { site: 'x.com' }))"
+          >
+            <ng-icon name="lucideTrash2" size="11" />
+          </button>
+        </div>
+        <div class="re-list__row re-reveal-host">
+          <div class="flex min-w-0 flex-1 items-center gap-2.5">
+            <ng-icon name="lucideShieldX" size="12" class="shrink-0 text-rose-500" />
+            <div class="min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="re-mono truncate font-semibold text-slate-800">*.mercadolibre.*</span>
+                <span class="re-badge">{{ t('auto.wildcard') }}</span>
+              </div>
+              <p class="re-hint truncate">{{ t('auto.rules.blacklistWildcard') }}</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+            [title]="t('auto.removeFromList')"
+            [attr.aria-label]="t('auto.removeFromList')"
+            (click)="notify.emit(t('toast.siteRemoved', { site: '*.mercadolibre.*' }))"
+          >
+            <ng-icon name="lucideTrash2" size="11" />
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+</ng-container>

@@ -1,0 +1,196 @@
+<!--
+  Popup shell mockup. Each "Block:" marker names the element right after it and the guide step that
+  replaces it.
+-->
+<ng-container *transloco="let t">
+  <!-- Block: Header · replaced in guide step 08 -->
+  <header class="re-header">
+    <div class="re-header__brand">
+      <div class="re-header__logo"><ng-icon name="lucideCookie" size="13" /></div>
+      <span class="re-header__title">ReSession</span>
+    </div>
+
+    <div class="re-segmented" role="tablist" [attr.aria-label]="t('header.views')">
+      <button
+        type="button"
+        role="tab"
+        class="re-segmented__item"
+        [attr.aria-selected]="view() === 'tab'"
+        (click)="view.set('tab')"
+      >
+        <ng-icon name="lucideTarget" size="10" />{{ t('header.tab') }}
+      </button>
+      <button
+        type="button"
+        role="tab"
+        class="re-segmented__item"
+        [attr.aria-selected]="view() === 'global'"
+        (click)="view.set('global')"
+      >
+        <ng-icon name="lucideGlobe" size="10" />{{ t('header.globalCount', { count: 6 }) }}
+      </button>
+      <button
+        type="button"
+        role="tab"
+        class="re-segmented__item"
+        [attr.aria-selected]="view() === 'auto'"
+        (click)="view.set('auto')"
+      >
+        <ng-icon name="lucideZap" size="10" />{{ t('header.auto') }}
+      </button>
+    </div>
+
+    <div class="re-header__actions">
+      @if (canAddCookie()) {
+        <button type="button" class="re-btn re-btn--sm re-btn--primary" (click)="addCookie()">
+          <ng-icon name="lucidePlus" size="11" /><span>{{ t('common.add') }}</span>
+        </button>
+      }
+      <button
+        type="button"
+        class="re-icon-btn"
+        [title]="t('settings.title')"
+        [attr.aria-label]="t('settings.title')"
+        aria-haspopup="menu"
+        [attr.aria-expanded]="isMenuOpen()"
+        (click)="toggleMenu()"
+      >
+        <ng-icon name="lucideSettings" size="13" />
+      </button>
+
+      <!-- Block: Settings menu · replaced in guide step 08 -->
+      @if (isMenuOpen()) {
+        <div class="re-menu" role="menu" [attr.aria-label]="t('settings.title')">
+          <div class="re-menu__section">
+            <span class="re-section-title">{{ t('settings.language') }}</span>
+            <!-- Each language is named in its own language, so it is not translated. -->
+            <div class="re-segmented re-segmented--block">
+              <button
+                type="button"
+                class="re-segmented__item"
+                [attr.aria-pressed]="language() === 'es'"
+                (click)="language.set('es')"
+              >
+                Español
+              </button>
+              <button
+                type="button"
+                class="re-segmented__item"
+                [attr.aria-pressed]="language() === 'en'"
+                (click)="language.set('en')"
+              >
+                English
+              </button>
+            </div>
+          </div>
+          <div class="re-menu__section">
+            <span class="re-section-title">{{ t('settings.theme') }}</span>
+            <div class="re-segmented re-segmented--block">
+              <button
+                type="button"
+                class="re-segmented__item"
+                [title]="t('settings.light')"
+                [attr.aria-label]="t('settings.light')"
+                [attr.aria-pressed]="theme() === 'light'"
+                (click)="theme.set('light')"
+              >
+                <ng-icon name="lucideSun" size="12" />
+              </button>
+              <button
+                type="button"
+                class="re-segmented__item"
+                [title]="t('settings.dark')"
+                [attr.aria-label]="t('settings.dark')"
+                [attr.aria-pressed]="theme() === 'dark'"
+                (click)="theme.set('dark')"
+              >
+                <ng-icon name="lucideMoon" size="12" />
+              </button>
+              <button
+                type="button"
+                class="re-segmented__item"
+                [title]="t('settings.system')"
+                [attr.aria-label]="t('settings.system')"
+                [attr.aria-pressed]="theme() === 'system'"
+                (click)="theme.set('system')"
+              >
+                <ng-icon name="lucideMonitor" size="12" />
+              </button>
+            </div>
+          </div>
+          <div class="re-menu__group">
+            <button
+              type="button"
+              role="menuitem"
+              class="re-menu__item"
+              (click)="showToast(t('toast.exported', { file: 'resession-2026-10-17.json' }))"
+            >
+              <ng-icon name="lucideDownload" size="13" />{{ t('settings.export') }}
+            </button>
+            <button
+              type="button"
+              role="menuitem"
+              class="re-menu__item"
+              (click)="showToast(t('toast.importPage'))"
+            >
+              <ng-icon name="lucideUpload" size="13" />{{ t('settings.import') }}
+            </button>
+          </div>
+          <div class="re-menu__group">
+            <button type="button" role="menuitem" class="re-menu__item" (click)="openHelp()">
+              <ng-icon name="lucideCircleHelp" size="13" />{{ t('settings.help') }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </header>
+
+  @switch (view()) {
+    @case ('tab') {
+      <!-- Block: Tab view · replaced in guide step 05 -->
+      <app-tab-mockup (askConfirm)="askConfirm()" (notify)="showToast($event)" />
+    }
+    @case ('global') {
+      <!-- Block: Global view · replaced in guide step 06 -->
+      <app-global-mockup
+        (editCookie)="editCookie()"
+        (askConfirm)="askConfirm()"
+        (notify)="showToast($event)"
+      />
+    }
+    @case ('auto') {
+      <!-- Block: Auto view · replaced in guide step 07 -->
+      <app-auto-mockup (notify)="showToast($event)" />
+    }
+  }
+
+  <!-- Block: Status bar · replaced in guide step 08 -->
+  <footer class="re-statusbar">
+    <div class="re-statusbar__guarantee" [title]="t('status.guaranteeTitle')">
+      <ng-icon name="lucideShieldCheck" size="10" />
+      <span><strong>{{ t('status.guaranteeLead') }}</strong> {{ t('status.guaranteeText') }}</span>
+    </div>
+    <button type="button" class="re-link" (click)="openHelp()">{{ t('status.details') }}</button>
+  </footer>
+
+  <app-toast />
+
+  <!-- Block: Cookie editor · replaced in guide step 09 -->
+  @if (isEditorOpen()) {
+    <app-editor-mockup
+      [isNew]="isNewCookie()"
+      (dismiss)="isEditorOpen.set(false)"
+      (save)="saveCookie(t('toast.saved'))"
+      (remove)="askConfirm()"
+      (notify)="showToast($event)"
+    />
+  }
+
+  <app-confirm-dialog />
+
+  <!-- Block: Help panel · replaced in guide step 08 -->
+  @if (isHelpOpen()) {
+    <app-help-mockup (dismiss)="isHelpOpen.set(false)" />
+  }
+</ng-container>

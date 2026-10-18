@@ -1,0 +1,39 @@
+<ng-container *transloco="let t">
+  <div
+    class="re-tree__head re-reveal-host"
+    appTreeHeadToggle
+    [collapsed]="collapsed()"
+    (toggleCollapse)="toggleCollapse.emit()"
+  >
+    <div class="re-tree__head-main">
+      <ng-icon class="re-tree__chevron" name="lucideChevronDown" size="11" />
+      <ng-icon class="re-tree__icon" [name]="icon()" size="12" />
+
+      <span class="re-tree__label">{{ label() }}</span>
+      <span class="re-badge re-badge--micro">{{ summary() }}</span>
+    </div>
+
+    @if (hasEntries()) {
+      <div class="re-tree__actions re-reveal">
+        <button type="button" class="re-btn re-btn--2xs re-btn--danger-ghost">
+          {{ t('common.empty') }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="re-tree__items" [hidden]="collapsed()">
+    @for (row of rows(); track row.entry.id) {
+      <app-storage-item
+        [entry]="row.entry"
+        [selected]="row.selected"
+        (toggleSelect)="toggleSelect.emit(row.entry.id)"
+        (copyValue)="onCopyValue($event)"
+      />
+    }
+
+    @if (!hasEntries()) {
+      <p class="re-tree__note">{{ t('storage.noKeys') }}</p>
+    }
+  </div>
+</ng-container>

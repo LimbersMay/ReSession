@@ -1,12 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { PopupMockup } from './mockup/popup-mockup';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [PopupMockup],
   templateUrl: './app.html',
-  styleUrl: './app.sass'
+  styleUrl: './app.sass',
 })
-export class App {
-  protected readonly title = signal('ReSession');
-}
+export class App {}

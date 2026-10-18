@@ -1,0 +1,25 @@
+// Row lock: a bare icon, no box. Always neutral (the lock never uses the brand colour).
+// Open = slate-300 (barely visible), closed = slate-700 (solid).
+// If another app of the suite needs it, propose it to ReDesign as re-tree__lock.
+.lock-btn
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+  padding: 0
+  border: 0
+  background: none
+  color: var(--re-slate-300)
+  cursor: pointer
+  transition: color 120ms ease
+
+  &:hover
+    color: var(--re-slate-500)
+
+  &.is-locked
+    color: var(--re-slate-700)
+
+  &:focus-visible
+    outline: 2px solid color-mix(in srgb, var(--re-ring) 55%, transparent)
+    outline-offset: 2px
+    border-radius: var(--re-radius-sm)

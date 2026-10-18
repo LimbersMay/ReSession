@@ -1,0 +1,423 @@
+<!-- View 2 mockup ("Global"). The whole component becomes GlobalView in guide step 06. -->
+<ng-container *transloco="let t">
+  <div class="flex shrink-0 items-center gap-2.5 border-b bg-card px-3.5 py-2">
+    <div class="re-input-group flex-1">
+      <ng-icon name="lucideSearch" size="13" />
+      <input type="text" class="re-mono" [placeholder]="t('search.globalPlaceholder')" />
+    </div>
+    <span class="re-badge">{{ t('global.cookiesMany', { count: 21 }) }}</span>
+  </div>
+
+  <!-- "Lock" needs a selection; "Clean all" is confirmed with the numbers first. -->
+  <div class="re-batchbar">
+    <label class="re-batchbar__select">
+      <input type="checkbox" class="re-checkbox" />
+      <span>{{ t('batch.selectAll', { count: 21 }) }}</span>
+    </label>
+    <div class="re-batchbar__actions">
+      <button
+        type="button"
+        class="re-btn re-btn--xs re-btn--secondary"
+        disabled
+        [title]="t('batch.lockNeedsSelection')"
+      >
+        <ng-icon name="lucideLock" size="11" />{{ t('batch.lock') }}
+      </button>
+      <button
+        type="button"
+        class="re-btn re-btn--xs re-btn--secondary"
+        (click)="askConfirm.emit()"
+      >
+        <ng-icon name="lucideEraser" size="11" />{{ t('batch.cleanAll') }}
+      </button>
+      <button
+        type="button"
+        class="re-icon-btn re-icon-btn--sm"
+        [title]="t('batch.collapseAll')"
+        [attr.aria-label]="t('batch.collapseAll')"
+        (click)="toggleAllCollapsed()"
+      >
+        <ng-icon name="lucideChevronsDownUp" size="11" />
+      </button>
+    </div>
+  </div>
+
+  <div class="re-tree">
+    <!-- Level 1: site -->
+    <section class="re-tree__group">
+      <div
+        class="re-tree__head re-reveal-host"
+        role="button"
+        tabindex="0"
+        [attr.aria-expanded]="!isCollapsed('g-github')"
+        (click)="toggleCollapsed('g-github')"
+      >
+        <div class="re-tree__head-main">
+          <ng-icon class="re-tree__chevron" name="lucideChevronDown" size="11" />
+          <ng-icon class="re-tree__icon" name="lucideGlobe" size="12" />
+          <span class="re-tree__label">github.com</span>
+          <span class="re-badge">{{ t('global.cookiesMany', { count: 7 }) }}</span>
+        </div>
+        <div class="re-tree__actions re-reveal">
+          <button
+            type="button"
+            class="re-btn re-btn--2xs re-btn--danger-ghost"
+            (click)="onCleanGroup($event, siteCleanSummary())"
+          >
+            {{ t('cookies.clean') }}
+          </button>
+        </div>
+      </div>
+      <div class="re-tree__items" [hidden]="isCollapsed('g-github')">
+        <!-- Level 2: shared root domain, whitelisted -->
+        <section>
+          <div
+            class="re-tree__head re-tree__head--l2"
+            role="button"
+            tabindex="0"
+            [attr.aria-expanded]="!isCollapsed('g-github-root')"
+            (click)="toggleCollapsed('g-github-root')"
+          >
+            <div class="re-tree__head-main">
+              <ng-icon class="re-tree__chevron" name="lucideChevronDown" size="11" />
+              <ng-icon class="re-tree__icon" name="lucideFolder" size="12" />
+              <span class="re-tree__key re-tree__key--strong">.github.com</span>
+              <span class="re-tree__meta">{{ rootMeta() }}</span>
+            </div>
+            <span
+              class="re-pill re-pill--success"
+              [title]="t('global.whitelistedTitle', { site: 'github.com' })"
+            >
+              <ng-icon name="lucideShieldCheck" size="10" />{{ t('cookies.whitelisted') }}
+            </span>
+          </div>
+          <div class="re-tree__items" [hidden]="isCollapsed('g-github-root')">
+            <div class="re-tree__row re-tree__row--l3 re-reveal-host">
+              <div class="re-tree__row-main">
+                <input
+                  type="checkbox"
+                  class="re-checkbox"
+                  [attr.aria-label]="t('cookies.select', { name: 'user_session' })"
+                />
+                <button
+                  type="button"
+                  class="lock-btn is-locked"
+                  [title]="t('cookies.unlock')"
+                  [attr.aria-label]="t('cookies.unlock')"
+                >
+                  <ng-icon name="lucideLock" size="12" />
+                </button>
+                <span class="re-tree__key re-tree__key--strong">user_session</span>
+                <span class="re-tree__value">PKC_99xKa81ZlaQ7nV3</span>
+              </div>
+              <div class="re-tree__row-end">
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+                  [title]="t('cookies.edit')"
+                  [attr.aria-label]="t('cookies.edit')"
+                  (click)="editCookie.emit()"
+                >
+                  <ng-icon name="lucidePencil" size="11" />
+                </button>
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+                  [title]="t('cookies.remove')"
+                  [attr.aria-label]="t('cookies.remove')"
+                  (click)="askConfirm.emit()"
+                >
+                  <ng-icon name="lucideTrash2" size="11" />
+                </button>
+              </div>
+            </div>
+            <div class="re-tree__row re-tree__row--l3 re-reveal-host">
+              <div class="re-tree__row-main">
+                <input
+                  type="checkbox"
+                  class="re-checkbox"
+                  [attr.aria-label]="t('cookies.select', { name: 'logged_in' })"
+                />
+                <button
+                  type="button"
+                  class="lock-btn"
+                  [title]="t('cookies.lock')"
+                  [attr.aria-label]="t('cookies.lock')"
+                >
+                  <ng-icon name="lucideLockOpen" size="12" />
+                </button>
+                <span class="re-tree__key">logged_in</span>
+                <span class="re-tree__value">yes</span>
+              </div>
+              <div class="re-tree__row-end">
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+                  [title]="t('cookies.edit')"
+                  [attr.aria-label]="t('cookies.edit')"
+                  (click)="editCookie.emit()"
+                >
+                  <ng-icon name="lucidePencil" size="11" />
+                </button>
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+                  [title]="t('cookies.remove')"
+                  [attr.aria-label]="t('cookies.remove')"
+                  (click)="askConfirm.emit()"
+                >
+                  <ng-icon name="lucideTrash2" size="11" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Level 2: subdomain -->
+        <section>
+          <div
+            class="re-tree__head re-tree__head--l2 re-reveal-host"
+            role="button"
+            tabindex="0"
+            [attr.aria-expanded]="!isCollapsed('g-github-gist')"
+            (click)="toggleCollapsed('g-github-gist')"
+          >
+            <div class="re-tree__head-main">
+              <ng-icon class="re-tree__chevron" name="lucideChevronDown" size="11" />
+              <ng-icon class="re-tree__icon" name="lucideFolder" size="12" />
+              <span class="re-tree__key re-tree__key--strong">gist.github.com</span>
+              <span class="re-tree__meta">{{ hostMeta() }}</span>
+            </div>
+            <div class="re-tree__actions re-reveal">
+              <button
+                type="button"
+                class="re-btn re-btn--2xs re-btn--danger-ghost"
+                (click)="onCleanGroup($event, hostCleanSummary())"
+              >
+                {{ t('cookies.clean') }}
+              </button>
+            </div>
+          </div>
+          <div class="re-tree__items" [hidden]="isCollapsed('g-github-gist')">
+            <div class="re-tree__row re-tree__row--l3 re-reveal-host">
+              <div class="re-tree__row-main">
+                <input
+                  type="checkbox"
+                  class="re-checkbox"
+                  [attr.aria-label]="t('cookies.select', { name: 'gist_session' })"
+                />
+                <button
+                  type="button"
+                  class="lock-btn is-locked"
+                  [title]="t('cookies.unlock')"
+                  [attr.aria-label]="t('cookies.unlock')"
+                >
+                  <ng-icon name="lucideLock" size="12" />
+                </button>
+                <span class="re-tree__key re-tree__key--strong">gist_session</span>
+                <span class="re-tree__value">ghs_89A7sdFk982jKqP2xL0m</span>
+              </div>
+              <div class="re-tree__row-end">
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+                  [title]="t('cookies.edit')"
+                  [attr.aria-label]="t('cookies.edit')"
+                  (click)="editCookie.emit()"
+                >
+                  <ng-icon name="lucidePencil" size="11" />
+                </button>
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+                  [title]="t('cookies.remove')"
+                  [attr.aria-label]="t('cookies.remove')"
+                  (click)="askConfirm.emit()"
+                >
+                  <ng-icon name="lucideTrash2" size="11" />
+                </button>
+              </div>
+            </div>
+            <div class="re-tree__row re-tree__row--l3 re-reveal-host">
+              <div class="re-tree__row-main">
+                <input
+                  type="checkbox"
+                  class="re-checkbox"
+                  [attr.aria-label]="t('cookies.select', { name: 'gist_ui_theme' })"
+                />
+                <button
+                  type="button"
+                  class="lock-btn"
+                  [title]="t('cookies.lock')"
+                  [attr.aria-label]="t('cookies.lock')"
+                >
+                  <ng-icon name="lucideLockOpen" size="12" />
+                </button>
+                <span class="re-tree__key">gist_ui_theme</span>
+                <span class="re-tree__value">dark_high_contrast</span>
+              </div>
+              <div class="re-tree__row-end">
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+                  [title]="t('cookies.edit')"
+                  [attr.aria-label]="t('cookies.edit')"
+                  (click)="editCookie.emit()"
+                >
+                  <ng-icon name="lucidePencil" size="11" />
+                </button>
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+                  [title]="t('cookies.remove')"
+                  [attr.aria-label]="t('cookies.remove')"
+                  (click)="notify.emit(t('toast.removed', { name: 'gist_ui_theme' }))"
+                >
+                  <ng-icon name="lucideTrash2" size="11" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Level 1: third-party trackers -->
+    <section class="re-tree__group">
+      <div
+        class="re-tree__head"
+        role="button"
+        tabindex="0"
+        [attr.aria-expanded]="!isCollapsed('g-trackers')"
+        (click)="toggleCollapsed('g-trackers')"
+      >
+        <div class="re-tree__head-main">
+          <ng-icon class="re-tree__chevron" name="lucideChevronDown" size="11" />
+          <ng-icon
+            class="re-tree__icon re-tree__icon--danger"
+            name="lucideShieldAlert"
+            size="12"
+          />
+          <span class="re-tree__label">{{ t('global.thirdPartyTrackers') }}</span>
+          <span class="re-badge re-badge--danger">{{
+            t('global.detectedMany', { count: 4 })
+          }}</span>
+        </div>
+        <button
+          type="button"
+          class="re-btn re-btn--2xs re-btn--danger-soft"
+          (click)="onCleanGroup($event, t('toast.removedMany', { count: 4 }))"
+        >
+          <ng-icon name="lucideEraser" size="10" />{{ t('cookies.cleanCount', { count: 4 }) }}
+        </button>
+      </div>
+      <div class="re-tree__items" [hidden]="isCollapsed('g-trackers')">
+        <section>
+          <div
+            class="re-tree__head re-tree__head--l2 re-reveal-host"
+            role="button"
+            tabindex="0"
+            [attr.aria-expanded]="!isCollapsed('g-doubleclick')"
+            (click)="toggleCollapsed('g-doubleclick')"
+          >
+            <div class="re-tree__head-main">
+              <ng-icon class="re-tree__chevron" name="lucideChevronDown" size="11" />
+              <ng-icon class="re-tree__icon" name="lucideFolder" size="12" />
+              <span class="re-tree__key re-tree__key--strong">.doubleclick.net</span>
+              <span class="re-tree__meta">Google Ads · 2</span>
+            </div>
+            <div class="re-tree__actions re-reveal">
+              <button
+                type="button"
+                class="re-btn re-btn--2xs re-btn--danger-ghost"
+                (click)="onCleanGroup($event, t('toast.removedMany', { count: 2 }))"
+              >
+                {{ t('cookies.clean') }}
+              </button>
+            </div>
+          </div>
+          <div class="re-tree__items" [hidden]="isCollapsed('g-doubleclick')">
+            <div class="re-tree__row re-tree__row--l3 re-tree__row--danger re-reveal-host">
+              <div class="re-tree__row-main">
+                <input
+                  type="checkbox"
+                  class="re-checkbox"
+                  [attr.aria-label]="t('cookies.select', { name: 'IDE' })"
+                />
+                <button
+                  type="button"
+                  class="lock-btn"
+                  [title]="t('cookies.lock')"
+                  [attr.aria-label]="t('cookies.lock')"
+                >
+                  <ng-icon name="lucideLockOpen" size="12" />
+                </button>
+                <span class="re-tree__key">IDE</span>
+                <span class="re-tree__value">AHWqTUv_9281xQe</span>
+              </div>
+              <div class="re-tree__row-end">
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+                  [title]="t('cookies.edit')"
+                  [attr.aria-label]="t('cookies.edit')"
+                  (click)="editCookie.emit()"
+                >
+                  <ng-icon name="lucidePencil" size="11" />
+                </button>
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+                  [title]="t('cookies.remove')"
+                  [attr.aria-label]="t('cookies.remove')"
+                  (click)="notify.emit(t('toast.removed', { name: 'IDE' }))"
+                >
+                  <ng-icon name="lucideTrash2" size="11" />
+                </button>
+              </div>
+            </div>
+            <div class="re-tree__row re-tree__row--l3 re-tree__row--danger re-reveal-host">
+              <div class="re-tree__row-main">
+                <input
+                  type="checkbox"
+                  class="re-checkbox"
+                  [attr.aria-label]="t('cookies.select', { name: 'test_cookie' })"
+                />
+                <button
+                  type="button"
+                  class="lock-btn"
+                  [title]="t('cookies.lock')"
+                  [attr.aria-label]="t('cookies.lock')"
+                >
+                  <ng-icon name="lucideLockOpen" size="12" />
+                </button>
+                <span class="re-tree__key">test_cookie</span>
+                <span class="re-tree__value">CheckForPermission</span>
+              </div>
+              <div class="re-tree__row-end">
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--brand re-reveal"
+                  [title]="t('cookies.edit')"
+                  [attr.aria-label]="t('cookies.edit')"
+                  (click)="editCookie.emit()"
+                >
+                  <ng-icon name="lucidePencil" size="11" />
+                </button>
+                <button
+                  type="button"
+                  class="re-icon-btn re-icon-btn--sm re-icon-btn--danger re-reveal"
+                  [title]="t('cookies.remove')"
+                  [attr.aria-label]="t('cookies.remove')"
+                  (click)="notify.emit(t('toast.removed', { name: 'test_cookie' }))"
+                >
+                  <ng-icon name="lucideTrash2" size="11" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+</ng-container>

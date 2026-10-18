@@ -1,0 +1,96 @@
+<!-- Help panel mockup. The whole component becomes HelpPanel in guide step 08. -->
+<ng-container *transloco="let t">
+  <header class="re-header">
+    <div class="re-header__brand">
+      <div class="re-header__logo"><ng-icon name="lucideCircleHelp" size="13" /></div>
+      <span class="re-header__title" id="helpTitle">{{ t('help.title') }}</span>
+    </div>
+    <button
+      type="button"
+      class="re-icon-btn"
+      [title]="t('common.close')"
+      [attr.aria-label]="t('common.close')"
+      (click)="dismiss.emit()"
+    >
+      <ng-icon name="lucideX" size="13" />
+    </button>
+  </header>
+
+  <div class="re-scroll flex flex-1 flex-col gap-5 p-4 text-xs leading-relaxed text-slate-600">
+    <section class="flex flex-col gap-2">
+      <h4 class="text-sm font-bold text-slate-800">{{ t('help.protects.title') }}</h4>
+      <div class="re-notice re-notice--success">
+        <ng-icon name="lucideShieldCheck" size="12" />
+        <span
+          ><strong>{{ t('help.protects.guaranteeLead') }}</strong>
+          {{ t('help.protects.guaranteeText') }}</span
+        >
+      </div>
+      <p>{{ t('help.protects.conditions') }}</p>
+      <ul class="flex list-disc flex-col gap-1 pl-5">
+        <li>{{ t('help.protects.locked') }}</li>
+        <li>{{ t('help.protects.whitelisted') }}</li>
+      </ul>
+      <p>{{ t('help.protects.scope.lead') }}</p>
+      <ul class="flex list-disc flex-col gap-1 pl-5">
+        <li>{{ t('help.protects.scope.cleanButtons') }}</li>
+        <li>{{ t('help.protects.scope.timer') }}</li>
+        <li>{{ t('help.protects.scope.blacklist') }}</li>
+        <li>{{ t('help.protects.scope.strict') }}</li>
+        <li>{{ t('help.protects.scope.trackers') }}</li>
+      </ul>
+      <p>{{ t('help.protects.scope.conflict') }}</p>
+      <p>{{ t('help.protects.manual') }}</p>
+      <p>
+        {{ t('help.protects.counts') }}
+        <span class="re-mono text-slate-700">{{
+          t('help.protects.countsExample', { removed: 7, kept: 3 })
+        }}</span>
+      </p>
+    </section>
+
+    <section class="flex flex-col gap-2">
+      <h4 class="text-sm font-bold text-slate-800">{{ t('help.buttons.title') }}</h4>
+      <dl class="grid grid-cols-[72px_1fr] gap-x-3 gap-y-1.5">
+        <dt class="font-semibold text-slate-800">{{ t('common.delete') }}</dt>
+        <dd>{{ t('help.buttons.deleteDesc') }}</dd>
+        <dt class="font-semibold text-slate-800">{{ t('common.clean') }}</dt>
+        <dd>{{ t('help.buttons.cleanDesc') }}</dd>
+        <dt class="font-semibold text-slate-800">{{ t('common.empty') }}</dt>
+        <dd>{{ t('help.buttons.emptyDesc') }}</dd>
+      </dl>
+    </section>
+
+    <section class="flex flex-col gap-2">
+      <h4 class="text-sm font-bold text-slate-800">{{ t('help.shortcuts.title') }}</h4>
+      <div class="re-list">
+        <div class="re-list__row">
+          <span>{{ t('help.shortcuts.open') }}</span>
+          <span class="re-kbd-combo"
+            ><kbd class="re-kbd">Alt</kbd>+<kbd class="re-kbd">⇧</kbd>+<kbd class="re-kbd"
+              >S</kbd
+            ></span
+          >
+        </div>
+        <div class="re-list__row">
+          <span>{{ t('help.shortcuts.cleanTab') }}</span>
+          <span class="re-kbd-combo"
+            ><kbd class="re-kbd">Alt</kbd>+<kbd class="re-kbd">⇧</kbd>+<kbd class="re-kbd"
+              >L</kbd
+            ></span
+          >
+        </div>
+        <div class="re-list__row">
+          <span>{{ t('help.shortcuts.search') }}</span><kbd class="re-kbd">/</kbd>
+        </div>
+        <div class="re-list__row">
+          <span>{{ t('help.shortcuts.close') }}</span><kbd class="re-kbd">Esc</kbd>
+        </div>
+      </div>
+      <p class="re-hint">
+        {{ t('help.shortcuts.hint') }}
+        <span class="re-mono">chrome://extensions/shortcuts</span>
+      </p>
+    </section>
+  </div>
+</ng-container>
